@@ -20,4 +20,10 @@ void Particle::update(double t)
 {
 	// movement
 	pose.p = pose.p + vel * t;
+
+	// acceleration
+	vel += acc * t;
+
+	// impose drag
+	vel *= powf(damping, t);
 }
