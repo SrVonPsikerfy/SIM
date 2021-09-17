@@ -26,7 +26,7 @@ PxDefaultCpuDispatcher* gDispatcher = NULL;
 PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
 
-Particle* mParticle;
+std::vector<Particle*> mParticles;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -52,8 +52,6 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	// ------------------------------------------------------
-
-	mParticle = new Particle({ 0, 0, 0 }, { 0, 5, 0 }, { 0, 20, 0 });
 }
 
 
@@ -64,7 +62,8 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
-	mParticle->update(t);
+	for (Particle* p : mParticles)
+		p->update(t);
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
@@ -87,7 +86,8 @@ void cleanupPhysics(bool interactive)
 
 	gFoundation->release();
 
-	if (mParticle) delete mParticle;
+	for (Particle* p : mParticles)
+		delete p;
 }
 
 // Function called when a key is pressed
@@ -101,6 +101,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		//case ' ':	break;
 	case 'Q':
 	{
+		mParticles.push_back(new Particle(GetCamera()->getTransform().p, GetCamera()->getDir() * (std::rand() % 200 + 25), { -2, -9.8, -2 }));
 		break;
 	}
 	default:
