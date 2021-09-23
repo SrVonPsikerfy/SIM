@@ -1,22 +1,21 @@
-#include <ctype.h>
-
 #include <PxPhysicsAPI.h>
 
+#include <ctype.h>
 #include <vector>
 
 #include "core.hpp"
-#include "RenderUtils.hpp"
 #include "callbacks.hpp"
-#include "Particle.h"
+#include "RenderUtils.hpp"
+
+#include "Scene.h"
 
 using namespace physx;
 
-PxDefaultAllocator		gAllocator;
-PxDefaultErrorCallback	gErrorCallback;
+PxDefaultAllocator gAllocator;
+PxDefaultErrorCallback gErrorCallback;
 
 PxFoundation* gFoundation = NULL;
 PxPhysics* gPhysics = NULL;
-
 
 PxMaterial* gMaterial = NULL;
 
@@ -26,7 +25,7 @@ PxDefaultCpuDispatcher* gDispatcher = NULL;
 PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
 
-std::vector<Particle*> mParticles;
+Scene* scene_;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -52,6 +51,8 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	// ------------------------------------------------------
+
+	scene_ = new Scene();
 }
 
 
@@ -62,8 +63,7 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
-	for (Particle* p : mParticles)
-		p->update(t);
+	scene_->update(t);
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
@@ -86,8 +86,7 @@ void cleanupPhysics(bool interactive)
 
 	gFoundation->release();
 
-	for (Particle* p : mParticles)
-		delete p;
+	delete scene_;
 }
 
 // Function called when a key is pressed
@@ -97,11 +96,15 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch (toupper(key))
 	{
-		//case 'B': break;
-		//case ' ':	break;
 	case 'Q':
 	{
-		mParticles.push_back(new Particle(GetCamera()->getTransform().p, GetCamera()->getDir() * (std::rand() % 200 + 25), { -2, -9.8, -2 }));
+		scene_->addParticle(GetCamera()->getTransform().p, GetCamera()->getDir() * (std::rand() % 200 + 125),
+			Vector3(-2, -9.8, -2), Vector4(0, 0, 0, 1));
+		break;
+	}
+	case 'R':
+	{
+		scene_->restart();
 		break;
 	}
 	default:
@@ -115,9 +118,9 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 	PX_UNUSED(actor2);
 }
 
-
 int main(int, const char* const*)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // Check Memory Leaks
 #ifndef OFFLINE_EXECUTION 
 	extern void renderLoop();
 	renderLoop();

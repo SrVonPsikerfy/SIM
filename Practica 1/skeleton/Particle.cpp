@@ -1,7 +1,7 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3 position, Vector3 velocity, Vector3 acceleration, double damp)
-{
+Particle::Particle(Vector3 position, Vector3 velocity, Vector3 acceleration,
+	Vector4 color, double damp) {
 	pos = position;
 	vel = velocity;
 	acc = acceleration;
@@ -9,21 +9,23 @@ Particle::Particle(Vector3 position, Vector3 velocity, Vector3 acceleration, dou
 	damping = damp;
 
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
-	renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(3, 3, 3)), &pose, { 0,1,0.5,1 });
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(3)), &pose, color);
+
+	deathTime = (std::rand() % 6 + 0.5);
 }
 
 Particle::~Particle() {
 	DeregisterRenderItem(renderItem);
+	delete renderItem;
 }
 
-void Particle::update(double t)
-{
-	// movement
-	pose.p = pose.p + vel * t;
+bool Particle::update(double t) {
+	pose.p = pose.p + vel * t; // movement
+	vel += acc * t; // acceleration
+	vel *= powf(damping, t); // impose drag
 
-	// acceleration
-	vel += acc * t;
-
-	// impose drag
-	vel *= powf(damping, t);
+	time += t;
+	if (time > deathTime)
+		return true;
+	return false;
 }
