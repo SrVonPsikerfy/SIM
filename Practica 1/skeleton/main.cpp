@@ -11,8 +11,8 @@
 
 using namespace physx;
 
-PxDefaultAllocator		gAllocator;
-PxDefaultErrorCallback	gErrorCallback;
+PxDefaultAllocator gAllocator;
+PxDefaultErrorCallback gErrorCallback;
 
 PxFoundation* gFoundation = NULL;
 PxPhysics* gPhysics = NULL;
@@ -62,8 +62,12 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
-	for (Particle* p : mParticles)
-		p->update(t);
+	for (int i = 0; i < mParticles.size(); ++i) {
+		if (mParticles[i]->update(t)) {
+			delete mParticles[i];
+			mParticles.erase(mParticles.begin() + i);
+		}
+	}
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
@@ -97,11 +101,10 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch (toupper(key))
 	{
-		//case 'B': break;
-		//case ' ':	break;
 	case 'Q':
 	{
-		mParticles.push_back(new Particle(GetCamera()->getTransform().p, GetCamera()->getDir() * (std::rand() % 200 + 25), { -2, -9.8, -2 }));
+		mParticles.push_back(new Particle(GetCamera()->getTransform().p, GetCamera()->getDir() * (std::rand() % 200 + 25),
+			{ -2, -9.8, -2 }, { 0, 0, 0, 1 }, 1));
 		break;
 	}
 	default:
@@ -115,9 +118,9 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 	PX_UNUSED(actor2);
 }
 
-
 int main(int, const char* const*)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // Check Memory Leaks
 #ifndef OFFLINE_EXECUTION 
 	extern void renderLoop();
 	renderLoop();

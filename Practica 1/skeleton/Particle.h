@@ -3,32 +3,45 @@
 
 #include "core.hpp"
 #include "RenderUtils.hpp"
+#include "checkML.h"
 
 class Particle
 {
 public:
-	Particle(Vector3 position, Vector3 velocity, Vector3 acceleration, double damp = 0.999);
+	Particle() noexcept;
+	Particle(Vector3 position, Vector3 velocity, Vector3 acceleration, Vector4 color,
+		double mass, double time = std::rand() % 4 + 3.5, float damp = 0.999);
+	//Particle(const Particle& p) noexcept;
 	~Particle();
 
-	void update(double t);
+	bool update(double t);
 
-private:
-	// Position in world space
-	Vector3 pos;
-	
-	// Linear velocity in world space
-	Vector3 vel;
+	void setPosition(Vector3 p);
+	void setVelocity(Vector3 v);
+	void setAcceleration(Vector3 a);
+	void setDamping(float damp);
+	void setMass(double mass);
+	void setColor(Vector4 c);
+	void setDeathTime(double t);
+	void resetLifeTime();
 
-	// Linear acceleration in world space
-	Vector3 acc;
+protected:
+	Vector3 pos; // Position in world space
+	Vector3 vel; // Linear velocity in world space
+	Vector3 acc; // Linear acceleration in world space
 
 	// How much linear velocity is lost.
 	// To improve stability of the engine
-	double damping;
+	float damping;
 
 	physx::PxTransform pose;
-
 	RenderItem* renderItem;
+
+	// Inverse mass, so 0 isn't a viable option
+	double inverse_mass;
+
+	// Lifetime of the particle
+	double deathTime, lifetime = 0;
 };
 
 #endif
