@@ -4,10 +4,10 @@
 
 #include <vector>
 
-#include "core.hpp"
-#include "RenderUtils.hpp"
-#include "callbacks.hpp"
-#include "Particle.h"
+#include "./utils/core.hpp"
+#include "./utils/RenderUtils.hpp"
+#include "./utils/callbacks.hpp"
+#include "./classes/Particle.h"
 
 using namespace physx;
 
@@ -16,7 +16,6 @@ PxDefaultErrorCallback gErrorCallback;
 
 PxFoundation* gFoundation = NULL;
 PxPhysics* gPhysics = NULL;
-
 
 PxMaterial* gMaterial = NULL;
 
@@ -27,6 +26,7 @@ PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
 
 std::vector<Particle*> mParticles;
+Vector4 vColor = { 0, 0, 0, 1 };
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -53,7 +53,6 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 	// ------------------------------------------------------
 }
-
 
 // Function to configure what happens in each step of physics
 // interactive: true if the game is rendering, false if it offline
@@ -99,13 +98,20 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	switch (toupper(key))
-	{
-	case 'Q':
-	{
+	switch (toupper(key)) {
+	case 'Q': {
 		mParticles.push_back(new Particle(GetCamera()->getTransform().p, GetCamera()->getDir() * (std::rand() % 200 + 25),
-			{ -2, -9.8, -2 }, { 0, 0, 0, 1 }, 1));
+			{ -2, -9.8, -2 }, vColor, 1));
 		break;
+	}
+	case 'R': {
+		vColor = { (float)rand() / (RAND_MAX), (float)rand() / (RAND_MAX),
+			(float)rand() / (RAND_MAX), 1/*((float)rand() / (RAND_MAX))*/ };
+		break;
+	}
+	case 'T': {
+		vColor.w = vColor.w ? 0 : 1;
+			break;
 	}
 	default:
 		break;
@@ -121,6 +127,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 int main(int, const char* const*)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // Check Memory Leaks
+
 #ifndef OFFLINE_EXECUTION 
 	extern void renderLoop();
 	renderLoop();

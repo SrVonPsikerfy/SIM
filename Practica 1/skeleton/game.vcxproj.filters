@@ -1,33 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Render\Camera.cpp">
-      <Filter>Render</Filter>
+    <ClCompile Include="render\Camera.cpp">
+      <Filter>render</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Render.cpp">
-      <Filter>Render</Filter>
+    <ClCompile Include="render\Render.cpp">
+      <Filter>render</Filter>
     </ClCompile>
-    <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="callbacks.cpp" />
-    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="utils\callbacks.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\RenderUtils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\Particle.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core.hpp" />
-    <ClInclude Include="Render\Camera.h">
-      <Filter>Render</Filter>
+    <ClInclude Include="render\Camera.h">
+      <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="Render\Render.h">
-      <Filter>Render</Filter>
+    <ClInclude Include="render\Render.h">
+      <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="RenderUtils.hpp" />
-    <ClInclude Include="callbacks.hpp" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="checkML.h" />
+    <ClInclude Include="utils\callbacks.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\checkML.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\core.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\RenderUtils.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\Particle.h">
+      <Filter>classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Render">
+    <Filter Include="render">
       <UniqueIdentifier>{d04b4f9f-5a69-465e-8070-25c6d0bcd3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{fc07d345-92b3-4d18-a5f0-0e003fdc26a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes">
+      <UniqueIdentifier>{2706dfa3-3045-4225-93a4-a7e01f5ebb77}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
