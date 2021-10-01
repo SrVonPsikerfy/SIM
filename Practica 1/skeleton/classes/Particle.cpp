@@ -36,7 +36,7 @@ Particle::Particle(Vector3 position, Vector3 velocity, Vector3 acceleration,
 
 Particle::~Particle() {
 	DeregisterRenderItem(renderItem);
-	delete renderItem;
+	//delete renderItem;
 }
 
 bool Particle::update(double t) {
