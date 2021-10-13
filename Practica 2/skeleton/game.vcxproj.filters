@@ -46,6 +46,9 @@
     <ClInclude Include="classes\ParticleSystem.h">
       <Filter>classes</Filter>
     </ClInclude>
+    <ClInclude Include="classes\Firework.h">
+      <Filter>classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="render">

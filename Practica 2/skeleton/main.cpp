@@ -7,7 +7,7 @@
 #include "./utils/core.hpp"
 #include "./utils/RenderUtils.hpp"
 #include "./utils/callbacks.hpp"
-#include "./classes/Particle.h"
+#include "./classes/ParticleSystem.h"
 
 using namespace physx;
 
@@ -25,8 +25,9 @@ PxDefaultCpuDispatcher* gDispatcher = NULL;
 PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
 
-std::vector<Particle*> mParticles;
-Vector4 vColor = { 0, 0, 0, 1 };
+RenderItem* axis;
+
+ParticleSystem* inputParticleSystem = nullptr, * automaticParticleSystem = nullptr;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -52,6 +53,11 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	// ------------------------------------------------------
+
+	ParticleData pDataFountain = {};
+	inputParticleSystem = new ParticleSystem();
+	automaticParticleSystem = new ParticleSystem();
+
 }
 
 // Function to configure what happens in each step of physics
@@ -61,12 +67,8 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
-	for (int i = 0; i < mParticles.size(); ++i) {
-		if (mParticles[i]->update(t)) {
-			delete mParticles[i];
-			mParticles.erase(mParticles.begin() + i);
-		}
-	}
+	inputParticleSystem->update(t);
+	automaticParticleSystem->update(t);
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
@@ -88,9 +90,6 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 
 	gFoundation->release();
-
-	for (Particle* p : mParticles)
-		delete p;
 }
 
 // Function called when a key is pressed
@@ -98,21 +97,21 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
+	ParticleData pData;
+	FireworkLoadType type;
+	int randVel = (std::rand() % 30 + 20);
+
 	switch (toupper(key)) {
-	case 'Q': {
-		mParticles.push_back(new Particle(GetCamera()->getTransform().p, GetCamera()->getDir() * (std::rand() % 200 + 25),
-			{ -2, -9.8, -2 }, vColor, 0.1));
+	case ' ':
+		//offset iniSpeed acceleration damp invmass size deathTime prog color
+		pData = { { 0, 0, 0 }, GetCamera()->getDir() * 200, { 0, -5, 0 }, 0.999, 1, 3, 6, false, { 1, 1, 1, 1} };
+		inputParticleSystem->generateBullet(GetCamera()->getTransform().p, pData);
 		break;
-	}
-	case 'R': {
-		vColor = { (float)rand() / (RAND_MAX), (float)rand() / (RAND_MAX),
-			(float)rand() / (RAND_MAX), 1/*((float)rand() / (RAND_MAX))*/ };
+	case 'F':
+		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, -10, 0 }, 0.999, 1, 2, 3, false, { 1, 0, 0, 1 } };
+		type = FireworkLoadType::FLOWER;
+		inputParticleSystem->generateFirework(type, pData);
 		break;
-	}
-	case 'T': {
-		vColor.w = vColor.w ? 0 : 1;
-			break;
-	}
 	default:
 		break;
 	}

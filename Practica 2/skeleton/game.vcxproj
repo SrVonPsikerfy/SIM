@@ -262,6 +262,7 @@
     <ClCompile Include="utils\RenderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="classes\Firework.h" />
     <ClInclude Include="classes\Particle.h" />
     <ClInclude Include="classes\ParticleSystem.h" />
     <ClInclude Include="render\Camera.h" />
