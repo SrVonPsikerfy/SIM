@@ -253,6 +253,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="classes\FireworkSystem.cpp" />
     <ClCompile Include="classes\Particle.cpp" />
     <ClCompile Include="classes\ParticleSystem.cpp" />
     <ClCompile Include="main.cpp" />
@@ -263,6 +264,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="classes\Firework.h" />
+    <ClInclude Include="classes\FireworkSystem.h" />
     <ClInclude Include="classes\Particle.h" />
     <ClInclude Include="classes\ParticleSystem.h" />
     <ClInclude Include="render\Camera.h" />

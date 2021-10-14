@@ -20,6 +20,9 @@
     <ClCompile Include="classes\ParticleSystem.cpp">
       <Filter>classes</Filter>
     </ClCompile>
+    <ClCompile Include="classes\FireworkSystem.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render\Camera.h">
@@ -47,6 +50,9 @@
       <Filter>classes</Filter>
     </ClInclude>
     <ClInclude Include="classes\Firework.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\FireworkSystem.h">
       <Filter>classes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,5 @@
 #include "Particle.h"
 
-#include <iostream>
-
 Particle::Particle() : death(false) {
 	pos = Vector3(0, 0, 0);
 	vel = Vector3(0, 0, 0);
@@ -53,6 +51,8 @@ Particle::Particle(Vector3 sysPos, ParticleData data) : death(false) {
 	inverse_mass = data.inv_mass;
 
 	deathTime = data.lifeTime;
+
+	progThroughTime = data.progThroughTime;
 }
 
 Particle::~Particle() {
@@ -75,15 +75,16 @@ void Particle::integrate(double t) {
 
 bool Particle::checkDeath(double t) {
 	if (lifetime != -1) lifetime += t; // life time increase
-	//if (progThroughTime && !(lifetime > deathTime))
-	//	changeParticleThroughTime(lifetime);
+	if (progThroughTime && !(lifetime > deathTime))
+		changeParticleThroughTime(lifetime);
 	return lifetime > deathTime;
 }
-//
-//void Particle::changeParticleThroughTime(double t) {
-//	Vector4 color = renderItem->color;
-//	double size = renderItem->shape->getGeometry().sphere().radius;
-//    renderItem->release();
-//
-//	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(size * (t / deathTime))), &pose, color);
-//}
+
+void Particle::changeParticleThroughTime(double currentLifeTime) {
+	Vector4 color = renderItem->color;
+    renderItem->release();
+
+	float nuevoSize = size * (deathTime - currentLifeTime) / deathTime;
+
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(nuevoSize)), &pose, color);
+}

@@ -3,34 +3,36 @@
 
 #include <vector>
 
-#include "Particle.h"
-#include "Firework.h"
 #include "../utils/core.hpp"
 #include "../utils/checkML.h"
 
+#include "Particle.h"
+
+enum class SpawnType { NONE, FOUNTAIN };
+
 class ParticleSystem {
 public:
-	ParticleSystem(Vector3 pos = { 0, 0, 0 }, double spawn = -1) : spawnTime(spawn), posSystem(pos) {};
+	ParticleSystem(Vector3 pos = { 0, 0, 0 }, double spawn = -1) : spawnTime(spawn), posSystem(pos), spType(SpawnType::NONE) {};
 	virtual ~ParticleSystem();
 
 	void update(double t);
+	void reset();
 
 	void generateBullet(Vector3 pos, ParticleData data);
-	void generateFountain(ParticleData data, double spawn);
-	void generateFirework(FireworkLoadType type, ParticleData data);
+	void spawnFountain(double spawn);
 
 protected:
-	void onParticleDeath(int particle);
+	virtual void onParticleDeath(int particle);
 	void releaseParticle(int numParticle);
 
-	void ignite(Vector3 particlePos, FireworkLoadType loadType);
-
 	void spawnParticle(double t);
+
+	void generateFountainParticle();
 
 	std::vector<Particle*> particles;
 
 	Vector3 posSystem;
-	ParticleData pData;
+	SpawnType spType;
 	double spawnTime, nextSpawn = 0;
 };
 

@@ -33,7 +33,7 @@ public:
 	virtual void update(double t);
 
 	inline bool dead() noexcept { return death; };
-	inline Vector3 getPos() noexcept { return pos; };
+	inline Vector3 getPos() { return pose.p; };
 
 	inline void setPosition(Vector3 p) { pos = p; pose.p = p; };
 	inline void setVelocity(Vector3 v) { vel = v; };
@@ -48,7 +48,7 @@ protected:
 	bool checkDeath(double t);
 
 	// in case we want to do something with the particle through time
-	//virtual void changeParticleThroughTime(double t);
+	virtual void changeParticleThroughTime(double t);
 
 	Vector3 pos; // Position in world space
 	Vector3 vel; // Linear velocity in world space
