@@ -65,12 +65,15 @@ void Particle::update(double t) {
 }
 
 void Particle::integrate(double t) {
-	if (inverse_mass == 0.0) // infinite mass --> do nothing
+	if (hasFiniteMass()) // infinite mass --> do nothing
 		throw std::exception("Mass is infinite, unable to calculate physics");
 
-	pose.p = pose.p + vel * t; // movement
-	vel += acc * t; // acceleration
+	pose.p = pose.p + vel * t; // update position
+	vel += acc * t; // update velocity
 	vel *= powf(damping, t); // impose drag
+	acc = force * inverse_mass; // update acceleration
+
+	clearForce();
 }
 
 bool Particle::checkDeath(double t) {
@@ -82,7 +85,7 @@ bool Particle::checkDeath(double t) {
 
 void Particle::changeParticleThroughTime(double currentLifeTime) {
 	Vector4 color = renderItem->color;
-    renderItem->release();
+	renderItem->release();
 
 	float nuevoSize = size * (deathTime - currentLifeTime) / deathTime;
 

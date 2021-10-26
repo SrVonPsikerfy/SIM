@@ -253,8 +253,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="classes\DragForceGenerator.cpp" />
     <ClCompile Include="classes\FireworkSystem.cpp" />
+    <ClCompile Include="classes\GravityForceGenerator.cpp" />
     <ClCompile Include="classes\Particle.cpp" />
+    <ClCompile Include="classes\ParticleForceRegistry.cpp" />
     <ClCompile Include="classes\ParticleSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="render\Camera.cpp" />
@@ -263,9 +266,13 @@
     <ClCompile Include="utils\RenderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="classes\DragForceGenerator.h" />
     <ClInclude Include="classes\Firework.h" />
     <ClInclude Include="classes\FireworkSystem.h" />
+    <ClInclude Include="classes\GravityForceGenerator.h" />
     <ClInclude Include="classes\Particle.h" />
+    <ClInclude Include="classes\ParticleForceGenerator.h" />
+    <ClInclude Include="classes\ParticleForceRegistry.h" />
     <ClInclude Include="classes\ParticleSystem.h" />
     <ClInclude Include="render\Camera.h" />
     <ClInclude Include="render\Render.h" />

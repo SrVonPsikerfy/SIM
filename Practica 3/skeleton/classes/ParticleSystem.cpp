@@ -1,8 +1,5 @@
 #include "ParticleSystem.h"
 
-
-#include <iostream>
-
 ParticleSystem::~ParticleSystem() {
 	reset();
 }
@@ -14,7 +11,6 @@ void ParticleSystem::update(double t) {
 			onParticleDeath(i);
 	}
 
-	std::cout << particles.size() << "\n";
 	if (spawnTime != -1)
 		spawnParticle(t);
 }

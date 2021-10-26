@@ -30,8 +30,8 @@ ContactReportCallback gContactReportCallback;
 
 RenderItem* axis;
 
-ParticleSystem* inputParticleSystem = nullptr, * automaticParticleSystem = nullptr;
-FireworkSystem* frSystem = nullptr;
+ParticleSystem* inputParticleSystem = nullptr/*, * automaticParticleSystem = nullptr*/;
+//FireworkSystem* frSystem = nullptr;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -59,8 +59,8 @@ void initPhysics(bool interactive)
 	// ------------------------------------------------------
 
 	inputParticleSystem = new ParticleSystem();
-	automaticParticleSystem = new ParticleSystem();
-	frSystem = new FireworkSystem();
+	/*automaticParticleSystem = new ParticleSystem();
+	frSystem = new FireworkSystem();*/
 }
 
 // Function to configure what happens in each step of physics
@@ -71,8 +71,8 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 
 	inputParticleSystem->update(t);
-	automaticParticleSystem->update(t);
-	frSystem->update(t);
+	/*automaticParticleSystem->update(t);
+	frSystem->update(t);*/
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
@@ -108,30 +108,30 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch (toupper(key)) {
 	case ' ':
 		//offset iniSpeed acceleration damp invmass size deathTime prog color
-		pData = { { 0, 0, 0 }, GetCamera()->getDir() * 200, { 0, -5, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
+		pData = { { 0, 0, 0 }, GetCamera()->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
 		inputParticleSystem->generateBullet(GetCamera()->getTransform().p, pData);
 		break;
 	case 'X': {
 		double time = (((float)rand()) / RAND_MAX) / 16;
-		automaticParticleSystem->spawnFountain(time);
+		//automaticParticleSystem->spawnFountain(time);
 		break;
 	}
 	case 'F':
 		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, -10, 0 }, 0.999, 1, 2, 3, true, { 1, 1, 1, 1 } };
-		frSystem->generateFirework(FireworkLoadType::FLOWER, 360, 1, pData);
+		//frSystem->generateFirework(FireworkLoadType::FLOWER, 360, 1, pData);
 		break;
 	case 'P':
 		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, -10, 0 }, 0.999, 1, 2, 3, true, { 0, 1, 0, 1 } };
-		frSystem->generateFirework(FireworkLoadType::SPHERE, 40, 1, pData);
+		//frSystem->generateFirework(FireworkLoadType::SPHERE, 40, 1, pData);
 		break;
 	case 'O':
 		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, -10, 0 }, 0.999, 1, 2, 3, true, { 0, 0, 1, 1 } };
-		frSystem->generateFirework(FireworkLoadType::RANDOM, 30, 2, pData);
+		//frSystem->generateFirework(FireworkLoadType::RANDOM, 30, 2, pData);
 		break;
 	case 'R':
 		inputParticleSystem->reset();
-		automaticParticleSystem->reset();
-		frSystem->reset();
+		/*automaticParticleSystem->reset();
+		frSystem->reset();*/
 		break;
 	default:
 		break;

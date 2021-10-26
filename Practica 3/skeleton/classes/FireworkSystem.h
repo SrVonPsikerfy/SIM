@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "../utils/core.hpp"
 #include "../utils/checkML.h"
+#include "../utils/core.hpp"
 
 #include "ParticleSystem.h"
 #include "Firework.h"

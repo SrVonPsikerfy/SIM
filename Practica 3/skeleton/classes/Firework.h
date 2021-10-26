@@ -1,8 +1,8 @@
 #ifndef FIREWORK_H_
 #define FIREWORK_H_
 
-#include "../utils/core.hpp"
 #include "../utils/checkML.h"
+#include "../utils/core.hpp"
 
 #include "Particle.h"
 

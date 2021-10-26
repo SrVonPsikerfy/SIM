@@ -23,6 +23,15 @@
     <ClCompile Include="classes\FireworkSystem.cpp">
       <Filter>classes</Filter>
     </ClCompile>
+    <ClCompile Include="classes\ParticleForceRegistry.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\DragForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\GravityForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render\Camera.h">
@@ -53,6 +62,18 @@
       <Filter>classes</Filter>
     </ClInclude>
     <ClInclude Include="classes\FireworkSystem.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\ParticleForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\ParticleForceRegistry.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\DragForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\GravityForceGenerator.h">
       <Filter>classes</Filter>
     </ClInclude>
   </ItemGroup>
