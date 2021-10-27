@@ -255,6 +255,7 @@
   <ItemGroup>
     <ClCompile Include="classes\DragForceGenerator.cpp" />
     <ClCompile Include="classes\FireworkSystem.cpp" />
+    <ClCompile Include="classes\ForceGenerators.cpp" />
     <ClCompile Include="classes\GravityForceGenerator.cpp" />
     <ClCompile Include="classes\Particle.cpp" />
     <ClCompile Include="classes\ParticleForceRegistry.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="classes\DragForceGenerator.h" />
     <ClInclude Include="classes\Firework.h" />
     <ClInclude Include="classes\FireworkSystem.h" />
+    <ClInclude Include="classes\ForceGenerators.h" />
     <ClInclude Include="classes\GravityForceGenerator.h" />
     <ClInclude Include="classes\Particle.h" />
     <ClInclude Include="classes\ParticleForceGenerator.h" />

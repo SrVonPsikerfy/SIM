@@ -25,11 +25,17 @@ void ParticleSystem::reset() {
 
 void ParticleSystem::generateBullet(Vector3 pos, ParticleData data) {
 	particles.push_back(new Particle(pos, data));
+	for (auto fg : fgs)
+		fReg->add(particles[particles.size() - 1], fg);
 }
 
 void ParticleSystem::spawnFountain(double spawn) {
 	spType = SpawnType::FOUNTAIN;
 	spawnTime = spawn;
+}
+
+void ParticleSystem::applyForceGenerator(ParticleForceGenerator* fg) {
+	fgs.push_back(fg);
 }
 
 void ParticleSystem::onParticleDeath(int particle) {
@@ -52,10 +58,10 @@ void ParticleSystem::spawnParticle(double t) {
 
 void ParticleSystem::generateFountainParticle() {
 	ParticleData pData;
-	int vel = 10; 
+	int vel = 10;
 	float x = (-2 + (rand() % 7)), y = (rand() % 8), z = (-2 + (rand() % 7)), blue = (((float)rand()) / RAND_MAX);
 
-	pData.offset = { 0, 0, 0 }; pData.initialSpeed = { vel * x, vel * y, vel * z }; 
+	pData.offset = { 0, 0, 0 }; pData.initialSpeed = { vel * x, vel * y, vel * z };
 	pData.acceleration = { 0, -30, 0 };
 
 	pData.damp = 1;	pData.inv_mass = 1;
@@ -63,12 +69,14 @@ void ParticleSystem::generateFountainParticle() {
 	pData.progThroughTime = true; pData.color = { 0, 0, blue, 1 };
 
 	particles.push_back(new Particle(posSystem, pData));
-	
+
 	spawnTime = ((float)rand() / RAND_MAX) / 16;
 	nextSpawn = 0;
 }
 
 void ParticleSystem::releaseParticle(int numParticle) {
+	fReg->clearParticleLinks(particles[numParticle]);
+
 	delete particles[numParticle];
 	particles.erase(particles.begin() + numParticle);
 }

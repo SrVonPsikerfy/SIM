@@ -12,6 +12,10 @@
 #include "./classes/ParticleSystem.h"
 #include "./classes/FireworkSystem.h"
 
+#include "./classes/ParticleForceRegistry.h"
+
+#include "./classes/ForceGenerators.h"
+
 using namespace physx;
 
 PxDefaultAllocator gAllocator;
@@ -32,6 +36,8 @@ RenderItem* axis;
 
 ParticleSystem* inputParticleSystem = nullptr/*, * automaticParticleSystem = nullptr*/;
 //FireworkSystem* frSystem = nullptr;
+
+ParticleForceRegistry* fReg = nullptr;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -58,7 +64,9 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 	// ------------------------------------------------------
 
-	inputParticleSystem = new ParticleSystem();
+	fReg = new ParticleForceRegistry();
+	inputParticleSystem = new ParticleSystem(fReg);
+	inputParticleSystem->applyForceGenerator(ForceGenerators::gravity);
 	/*automaticParticleSystem = new ParticleSystem();
 	frSystem = new FireworkSystem();*/
 }
@@ -69,6 +77,8 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
+
+	fReg->updateForces(t);
 
 	inputParticleSystem->update(t);
 	/*automaticParticleSystem->update(t);

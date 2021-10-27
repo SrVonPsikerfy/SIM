@@ -7,12 +7,15 @@
 #include "../utils/core.hpp"
 
 #include "Particle.h"
+#include "ParticleForceGenerator.h"
+#include "ParticleForceRegistry.h"
 
 enum class SpawnType { NONE, FOUNTAIN };
 
 class ParticleSystem {
 public:
-	ParticleSystem(Vector3 pos = { 0, 0, 0 }, double spawn = -1) : spawnTime(spawn), posSystem(pos), spType(SpawnType::NONE) {};
+	ParticleSystem(ParticleForceRegistry* fR, Vector3 pos = { 0, 0, 0 }, double spawn = -1) : 
+		spawnTime(spawn), posSystem(pos), spType(SpawnType::NONE), fReg(fR) {};
 	virtual ~ParticleSystem();
 
 	void update(double t);
@@ -20,6 +23,8 @@ public:
 
 	void generateBullet(Vector3 pos, ParticleData data);
 	void spawnFountain(double spawn);
+
+	void applyForceGenerator(ParticleForceGenerator* fg);
 
 protected:
 	virtual void onParticleDeath(int particle);
@@ -30,6 +35,8 @@ protected:
 	void generateFountainParticle();
 
 	std::vector<Particle*> particles;
+	std::list<ParticleForceGenerator*> fgs;
+	ParticleForceRegistry* fReg;
 
 	Vector3 posSystem;
 	SpawnType spType;

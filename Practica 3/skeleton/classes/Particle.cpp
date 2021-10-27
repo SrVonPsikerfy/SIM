@@ -71,7 +71,7 @@ void Particle::integrate(double t) {
 	pose.p = pose.p + vel * t; // update position
 	vel += acc * t; // update velocity
 	vel *= powf(damping, t); // impose drag
-	acc = force * inverse_mass; // update acceleration
+	acc += force * inverse_mass; // update acceleration
 
 	clearForce();
 }

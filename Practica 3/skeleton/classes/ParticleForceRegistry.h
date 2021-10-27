@@ -25,15 +25,7 @@ protected:
 	using Registry = std::list<ParticleForceRegistration>;
 	Registry registrations;
 
-	static ParticleForceRegistry* instance;
-
 public:
-	static ParticleForceRegistry* getInstance() {
-		if (!instance)
-			instance = new ParticleForceRegistry();
-		return instance;
-	}
-
 	ParticleForceRegistry() {};
 	~ParticleForceRegistry() {};
 
