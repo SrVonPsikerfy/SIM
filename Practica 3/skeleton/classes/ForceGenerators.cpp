@@ -1,5 +1,11 @@
 #include "ForceGenerators.h"
 
-GravityForceGenerator* ForceGenerators::gravity = new GravityForceGenerator({ 0,-9.8,0 });
+ForceGenerators::ForceGenerators() {
+	gravity = new GravityForceGenerator({ 0, -9.8, 0 });
+	drag = new DragForceGenerator(0.5, 1.5);
+}
 
-DragForceGenerator* ForceGenerators::drag = new DragForceGenerator(0.5, 1.5);
+ForceGenerators::~ForceGenerators() {
+	delete gravity;
+	delete drag;
+}

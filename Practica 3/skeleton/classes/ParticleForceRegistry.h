@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <vector>
 
 #include "../utils/checkML.h"
 
@@ -16,13 +16,9 @@ protected:
 
 		Particle* particle;
 		ParticleForceGenerator* fg;
-
-		bool operator==(ParticleForceRegistration const& a) const {
-			return a.fg == fg && a.particle == particle;
-		}
 	};
 
-	using Registry = std::list<ParticleForceRegistration>;
+	using Registry = std::vector<ParticleForceRegistration>;
 	Registry registrations;
 
 public:

@@ -4,6 +4,7 @@ Particle::Particle() : death(false) {
 	pos = Vector3(0, 0, 0);
 	vel = Vector3(0, 0, 0);
 	acc = Vector3(0, 0, 0);
+	force = Vector3(0, 0, 0);
 
 	damping = 1;
 
@@ -22,6 +23,7 @@ Particle::Particle(Vector3 position, Vector3 velocity, Vector3 acceleration,
 	pos = position;
 	vel = velocity;
 	acc = acceleration;
+	force = { 0, 0, 0 };
 
 	damping = damp;
 
@@ -41,6 +43,7 @@ Particle::Particle(Vector3 sysPos, ParticleData data) : death(false) {
 	pos = sysPos + data.offset;
 	vel = data.initialSpeed;
 	acc = data.acceleration;
+	force = { 0, 0, 0 };
 
 	damping = data.damp;
 
@@ -71,7 +74,8 @@ void Particle::integrate(double t) {
 	pose.p = pose.p + vel * t; // update position
 	vel += acc * t; // update velocity
 	vel *= powf(damping, t); // impose drag
-	acc += force * inverse_mass; // update acceleration
+	// not cumulative since force does the work for the acceleration, and that one already is updated
+	acc = force * inverse_mass; // update acceleration
 
 	clearForce();
 }

@@ -38,6 +38,7 @@ ParticleSystem* inputParticleSystem = nullptr/*, * automaticParticleSystem = nul
 //FireworkSystem* frSystem = nullptr;
 
 ParticleForceRegistry* fReg = nullptr;
+ForceGenerators* forces = nullptr;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -65,8 +66,11 @@ void initPhysics(bool interactive)
 	// ------------------------------------------------------
 
 	fReg = new ParticleForceRegistry();
+	forces = new ForceGenerators();
+
 	inputParticleSystem = new ParticleSystem(fReg);
-	inputParticleSystem->applyForceGenerator(ForceGenerators::gravity);
+	inputParticleSystem->applyForceGenerator(forces->gravity);
+	inputParticleSystem->applyForceGenerator(forces->gravity);
 	/*automaticParticleSystem = new ParticleSystem();
 	frSystem = new FireworkSystem();*/
 }

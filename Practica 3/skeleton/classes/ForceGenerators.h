@@ -7,9 +7,11 @@
 
 class ForceGenerators {
 public:
-	static GravityForceGenerator* gravity;
+	ForceGenerators();
+	~ForceGenerators();
 
-	static DragForceGenerator* drag;
+	GravityForceGenerator* gravity;
+	DragForceGenerator* drag;
 };
 
 #endif
