@@ -71,6 +71,7 @@ void initPhysics(bool interactive)
 	inputParticleSystem = new ParticleSystem(fReg);
 	inputParticleSystem->addForceGenerator(forces->gravity);
 	inputParticleSystem->addForceGenerator(forces->wind);
+	inputParticleSystem->addForceGenerator(forces->bHole);
 	/*automaticParticleSystem = new ParticleSystem();
 	frSystem = new FireworkSystem();*/
 }

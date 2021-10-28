@@ -41,6 +41,9 @@
     <ClCompile Include="classes\ExplosionForceGenerator.cpp">
       <Filter>classes</Filter>
     </ClCompile>
+    <ClCompile Include="classes\BlackHoleForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render\Camera.h">
@@ -96,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="utils\maths.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\BlackHoleForceGenerator.h">
+      <Filter>classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

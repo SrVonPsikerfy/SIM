@@ -7,6 +7,7 @@
 #include "DragForceGenerator.h"
 #include "WindFieldForceGenerator.h"
 #include "ExplosionForceGenerator.h"
+#include "BlackHoleForceGenerator.h"
 
 #include "../render/Camera.h"
 
@@ -24,6 +25,7 @@ public:
 	DragForceGenerator* drag;
 	WindFieldForceGenerator* wind;
 	ExplosionForceGenerator* explosion;
+	BlackHoleForceGenerator* bHole;
 
 private:
 	double expT, expD;

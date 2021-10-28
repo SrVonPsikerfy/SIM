@@ -7,6 +7,7 @@ ForceGenerators::ForceGenerators(Camera* cam) : expT(-1), expD(1.5) {
 	drag = new DragForceGenerator(0.5, 1.5);
 	wind = new WindFieldForceGenerator({ 300, 300, 0 }, cam->getDir() * 100 + Vector3(-150, 150, -150), 60);
 	explosion = new ExplosionForceGenerator(cam->getDir() * 100, 1000, 60);
+	bHole = new BlackHoleForceGenerator(cam->getDir() * 100 + Vector3(150, 150, 150), 800, 60);
 }
 
 ForceGenerators::~ForceGenerators() {
@@ -14,6 +15,7 @@ ForceGenerators::~ForceGenerators() {
 	delete drag;
 	delete wind;
 	delete explosion;
+	delete bHole;
 }
 
 void ForceGenerators::addTime(ParticleForceRegistry* fReg, double t) {

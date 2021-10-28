@@ -257,6 +257,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="classes\BlackHoleForceGenerator.cpp" />
     <ClCompile Include="classes\DragForceGenerator.cpp" />
     <ClCompile Include="classes\ExplosionForceGenerator.cpp" />
     <ClCompile Include="classes\FireworkSystem.cpp" />
@@ -273,6 +274,7 @@
     <ClCompile Include="utils\RenderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="classes\BlackHoleForceGenerator.h" />
     <ClInclude Include="classes\DragForceGenerator.h" />
     <ClInclude Include="classes\ExplosionForceGenerator.h" />
     <ClInclude Include="classes\Firework.h" />
