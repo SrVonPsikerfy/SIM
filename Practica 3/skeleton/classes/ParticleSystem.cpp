@@ -1,5 +1,7 @@
 #include "ParticleSystem.h"
 
+#include "../utils/maths.h"
+
 ParticleSystem::~ParticleSystem() {
 	reset();
 }
@@ -34,8 +36,25 @@ void ParticleSystem::spawnFountain(double spawn) {
 	spawnTime = spawn;
 }
 
-void ParticleSystem::applyForceGenerator(ParticleForceGenerator* fg) {
+void ParticleSystem::spawnOnSphere(Vector3 pos, double radius, int num) {
+	for (size_t i = 0; i < num; i++) {
+		Particle* p = new Particle();
+		p->setDeathTime(20);
+		Vector3 dir = Vector3(maths::random<double>(-1, 1), maths::random<double>(-1, 1), maths::random<double>(-1, 1)).getNormalized();
+		double amount = maths::random<double>(-radius, radius);
+		p->setPosition(pos + dir * amount);
+
+		particles.push_back(p);
+	}
+}
+
+void ParticleSystem::addForceGenerator(ParticleForceGenerator* fg) {
 	fgs.push_back(fg);
+}
+
+void ParticleSystem::applyForceGenerator(ParticleForceGenerator* fg, bool instantForce) {
+	for (int i = 0; i < particles.size(); i++)
+		fReg->add(particles[i], fg, instantForce);
 }
 
 void ParticleSystem::onParticleDeath(int particle) {

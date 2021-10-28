@@ -10,8 +10,11 @@ class GravityForceGenerator : public ParticleForceGenerator
 {
 	// Acceleration for gravity
 	Vector3 g;
+
 public:
 	GravityForceGenerator(const Vector3& gravity) : g(gravity) {}
+	~GravityForceGenerator() {};
+
 	virtual void updateForce(Particle* particle, float t);
 };
 #endif

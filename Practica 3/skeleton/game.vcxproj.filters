@@ -35,6 +35,12 @@
     <ClCompile Include="classes\ForceGenerators.cpp">
       <Filter>classes</Filter>
     </ClCompile>
+    <ClCompile Include="classes\WindFieldForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\ExplosionForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render\Camera.h">
@@ -44,9 +50,6 @@
       <Filter>render</Filter>
     </ClInclude>
     <ClInclude Include="utils\callbacks.hpp">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\checkML.h">
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\core.hpp">
@@ -81,6 +84,18 @@
     </ClInclude>
     <ClInclude Include="classes\ForceGenerators.h">
       <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\WindFieldForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\ExplosionForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\checkML.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\maths.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

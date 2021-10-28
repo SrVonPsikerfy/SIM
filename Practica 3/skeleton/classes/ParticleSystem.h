@@ -24,8 +24,10 @@ public:
 
 	void generateBullet(Vector3 pos, ParticleData data);
 	void spawnFountain(double spawn);
+	void spawnOnSphere(Vector3 pos, double radius, int num);
 
-	void applyForceGenerator(ParticleForceGenerator* fg);
+	void addForceGenerator(ParticleForceGenerator* fg);
+	void applyForceGenerator(ParticleForceGenerator* fg, bool instantForce);
 
 protected:
 	virtual void onParticleDeath(int particle);

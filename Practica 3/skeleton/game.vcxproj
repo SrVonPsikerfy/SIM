@@ -83,6 +83,7 @@
       </PrecompiledHeaderFile>
       <ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <AdditionalOptions>
@@ -104,6 +105,9 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
     <OutDir>../bin/</OutDir>
@@ -254,12 +258,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="classes\DragForceGenerator.cpp" />
+    <ClCompile Include="classes\ExplosionForceGenerator.cpp" />
     <ClCompile Include="classes\FireworkSystem.cpp" />
     <ClCompile Include="classes\ForceGenerators.cpp" />
     <ClCompile Include="classes\GravityForceGenerator.cpp" />
     <ClCompile Include="classes\Particle.cpp" />
     <ClCompile Include="classes\ParticleForceRegistry.cpp" />
     <ClCompile Include="classes\ParticleSystem.cpp" />
+    <ClCompile Include="classes\WindFieldForceGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="render\Camera.cpp" />
     <ClCompile Include="render\Render.cpp" />
@@ -268,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="classes\DragForceGenerator.h" />
+    <ClInclude Include="classes\ExplosionForceGenerator.h" />
     <ClInclude Include="classes\Firework.h" />
     <ClInclude Include="classes\FireworkSystem.h" />
     <ClInclude Include="classes\ForceGenerators.h" />
@@ -276,11 +283,13 @@
     <ClInclude Include="classes\ParticleForceGenerator.h" />
     <ClInclude Include="classes\ParticleForceRegistry.h" />
     <ClInclude Include="classes\ParticleSystem.h" />
+    <ClInclude Include="classes\WindFieldForceGenerator.h" />
     <ClInclude Include="render\Camera.h" />
     <ClInclude Include="render\Render.h" />
     <ClInclude Include="utils\callbacks.hpp" />
     <ClInclude Include="utils\checkML.h" />
     <ClInclude Include="utils\core.hpp" />
+    <ClInclude Include="utils\maths.h" />
     <ClInclude Include="utils\RenderUtils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,8 +1,8 @@
 #include "ParticleForceRegistry.h"
 #include <iostream>
 
-void ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator* fg) {
-	registrations.push_back(ParticleForceRegistration(particle, fg));
+void ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator* fg, bool app) {
+	registrations.push_back(ParticleForceRegistration(particle, fg, app));
 }
 
 void ParticleForceRegistry::remove(Particle* particle, ParticleForceGenerator* fg) {
@@ -35,6 +35,6 @@ void ParticleForceRegistry::clearForceLinks(ParticleForceGenerator* fg) {
 }
 
 void ParticleForceRegistry::updateForces(float t) {
-	for (auto it = registrations.begin(); it != registrations.end(); ++it)
-		it->fg->updateForce(it->particle, t);
+	for (size_t i = 0; i < registrations.size(); i++) 
+		registrations[i].fg->updateForce(registrations[i].particle, t);
 }

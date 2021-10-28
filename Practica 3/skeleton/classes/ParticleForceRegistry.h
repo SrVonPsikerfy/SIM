@@ -11,11 +11,13 @@ class ParticleForceRegistry
 protected:
 	// Storage for generator-particle entry
 	struct ParticleForceRegistration {
-		ParticleForceRegistration(Particle* p, ParticleForceGenerator* fgen) :
-			particle(p), fg(fgen) {};
+		ParticleForceRegistration(Particle* p, ParticleForceGenerator* fgen, bool app) :
+			particle(p), fg(fgen), instantApplication(app) {};
 
 		Particle* particle;
 		ParticleForceGenerator* fg;
+
+		bool instantApplication;
 	};
 
 	using Registry = std::vector<ParticleForceRegistration>;
@@ -26,7 +28,7 @@ public:
 	~ParticleForceRegistry() {};
 
 	// Associate generator with a particle
-	void add(Particle* particle, ParticleForceGenerator* fg);
+	void add(Particle* particle, ParticleForceGenerator* fg, bool app = false);
 	// Remove association
 	void remove(Particle* particle, ParticleForceGenerator* fg);
 	// Removes all associations. Particle and Generators won't be deleted

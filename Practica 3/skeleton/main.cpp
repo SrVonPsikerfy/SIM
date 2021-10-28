@@ -66,11 +66,11 @@ void initPhysics(bool interactive)
 	// ------------------------------------------------------
 
 	fReg = new ParticleForceRegistry();
-	forces = new ForceGenerators();
+	forces = new ForceGenerators(GetCamera());
 
 	inputParticleSystem = new ParticleSystem(fReg);
-	inputParticleSystem->applyForceGenerator(forces->gravity);
-	inputParticleSystem->applyForceGenerator(forces->gravity);
+	inputParticleSystem->addForceGenerator(forces->gravity);
+	inputParticleSystem->addForceGenerator(forces->wind);
 	/*automaticParticleSystem = new ParticleSystem();
 	frSystem = new FireworkSystem();*/
 }
@@ -82,6 +82,7 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
+	forces->addTime(fReg, t);
 	fReg->updateForces(t);
 
 	inputParticleSystem->update(t);
@@ -96,6 +97,10 @@ void stepPhysics(bool interactive, double t)
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
+	delete inputParticleSystem;
+	delete forces;
+	delete fReg;
+
 	PX_UNUSED(interactive);
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
@@ -146,6 +151,13 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		inputParticleSystem->reset();
 		/*automaticParticleSystem->reset();
 		frSystem->reset();*/
+		break;
+	case 'E':
+		forces->startTime();
+		inputParticleSystem->applyForceGenerator(forces->explosion, true);
+		break;
+	case 'G':
+		inputParticleSystem->spawnOnSphere(Vector3(-63.5998802, -21.1999588, -74.1998520), 55, 50);
 		break;
 	default:
 		break;

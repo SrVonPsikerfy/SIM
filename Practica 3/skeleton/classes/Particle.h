@@ -47,6 +47,7 @@ public:
 	inline void setDamping(float damp) noexcept { damping = damp; };
 	inline void setMass(double inv_mass) noexcept { inverse_mass = inv_mass; };
 	inline void setColor(Vector4 c) { renderItem->color = c; };
+	inline void setDeathTime(double t) noexcept { deathTime = t; };
 	inline void resetLifeTime() noexcept { lifetime = 0; };
 
 protected:
