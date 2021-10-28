@@ -157,12 +157,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		forces->startTime();
 		inputParticleSystem->applyForceGenerator(forces->explosion, true);
 		break;
+	case 'B':
+		inputParticleSystem->applyForceGenerator(forces->bHole, false);
+		break;
 	case 'G':
 		inputParticleSystem->spawnOnSphere(Vector3(-63.5998802, -21.1999588, -74.1998520), 55, 50);
+		inputParticleSystem->spawnOnSphere(Vector3(-213.599884, 128.800049, 75.8001480), 55, 50);
 		break;
 	default:
 		break;
-	}
+}
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
