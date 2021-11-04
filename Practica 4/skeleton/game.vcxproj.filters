@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="render\Camera.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\Render.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="utils\callbacks.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\RenderUtils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\Particle.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\ParticleSystem.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\FireworkSystem.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\ParticleForceRegistry.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\DragForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\GravityForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\ForceGenerators.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\WindFieldForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\ExplosionForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\BlackHoleForceGenerator.cpp">
+      <Filter>classes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="render\Camera.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\Render.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\callbacks.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\core.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\RenderUtils.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\Particle.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\ParticleSystem.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\Firework.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\FireworkSystem.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\ParticleForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\ParticleForceRegistry.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\DragForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\GravityForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\ForceGenerators.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\WindFieldForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\ExplosionForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\checkML.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\maths.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\BlackHoleForceGenerator.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="render">
+      <UniqueIdentifier>{d04b4f9f-5a69-465e-8070-25c6d0bcd3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{fc07d345-92b3-4d18-a5f0-0e003fdc26a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes">
+      <UniqueIdentifier>{2706dfa3-3045-4225-93a4-a7e01f5ebb77}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
