@@ -2,10 +2,10 @@
 
 #include <time.h>
 #include <stdlib.h>
-#include "core.hpp"
-#include "RenderUtils.hpp"
-
 #include <math.h>
+
+#include "core.hpp"
+#include "../render/RenderUtils.hpp"
 
 namespace maths {
 

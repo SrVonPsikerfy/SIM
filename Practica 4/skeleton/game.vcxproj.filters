@@ -11,38 +11,41 @@
     <ClCompile Include="utils\callbacks.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="utils\RenderUtils.cpp">
-      <Filter>utils</Filter>
+    <ClCompile Include="render\RenderUtils.cpp">
+      <Filter>render</Filter>
     </ClCompile>
-    <ClCompile Include="classes\Particle.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\forces\BlackHoleForceGenerator.cpp">
+      <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\ParticleSystem.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\forces\DragForceGenerator.cpp">
+      <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\FireworkSystem.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\forces\ExplosionForceGenerator.cpp">
+      <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\ParticleForceRegistry.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\forces\ForceGenerators.cpp">
+      <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\DragForceGenerator.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\forces\GravityForceGenerator.cpp">
+      <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\GravityForceGenerator.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\forces\ParticleForceRegistry.cpp">
+      <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\ForceGenerators.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\forces\WindFieldForceGenerator.cpp">
+      <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\WindFieldForceGenerator.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\particle_system\FireworkSystem.cpp">
+      <Filter>classes\particle_system</Filter>
     </ClCompile>
-    <ClCompile Include="classes\ExplosionForceGenerator.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\particle_system\Particle.cpp">
+      <Filter>classes\particle_system</Filter>
     </ClCompile>
-    <ClCompile Include="classes\BlackHoleForceGenerator.cpp">
-      <Filter>classes</Filter>
+    <ClCompile Include="classes\particle_system\ParticleSystem.cpp">
+      <Filter>classes\particle_system</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\SphericalForceField.cpp">
+      <Filter>classes\forces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,50 +61,53 @@
     <ClInclude Include="utils\core.hpp">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="utils\RenderUtils.hpp">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\Particle.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\ParticleSystem.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\Firework.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\FireworkSystem.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\ParticleForceGenerator.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\ParticleForceRegistry.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\DragForceGenerator.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\GravityForceGenerator.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\ForceGenerators.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\WindFieldForceGenerator.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="classes\ExplosionForceGenerator.h">
-      <Filter>classes</Filter>
-    </ClInclude>
     <ClInclude Include="utils\checkML.h">
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\maths.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="classes\BlackHoleForceGenerator.h">
-      <Filter>classes</Filter>
+    <ClInclude Include="render\RenderUtils.hpp">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\BlackHoleForceGenerator.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\DragForceGenerator.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\ExplosionForceGenerator.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\ForceGenerators.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\GravityForceGenerator.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\ParticleForceGenerator.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\ParticleForceRegistry.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\WindFieldForceGenerator.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\particle_system\Firework.h">
+      <Filter>classes\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\particle_system\FireworkSystem.h">
+      <Filter>classes\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\particle_system\Particle.h">
+      <Filter>classes\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\particle_system\ParticleSystem.h">
+      <Filter>classes\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\SphericalForceField.h">
+      <Filter>classes\forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +119,18 @@
     </Filter>
     <Filter Include="classes">
       <UniqueIdentifier>{2706dfa3-3045-4225-93a4-a7e01f5ebb77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\particle_system">
+      <UniqueIdentifier>{e66476e6-d2cd-44ab-8d12-3566b87ebf89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\scene_system">
+      <UniqueIdentifier>{4011da3a-9e54-4a02-8c27-77991b7d79bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\forces">
+      <UniqueIdentifier>{fb8c83c9-4a1b-4519-a130-0a5d5caffef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\springs">
+      <UniqueIdentifier>{7485ad0d-75b2-4baf-842d-dbf0657882be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

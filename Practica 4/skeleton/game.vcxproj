@@ -257,42 +257,44 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="classes\BlackHoleForceGenerator.cpp" />
-    <ClCompile Include="classes\DragForceGenerator.cpp" />
-    <ClCompile Include="classes\ExplosionForceGenerator.cpp" />
-    <ClCompile Include="classes\FireworkSystem.cpp" />
-    <ClCompile Include="classes\ForceGenerators.cpp" />
-    <ClCompile Include="classes\GravityForceGenerator.cpp" />
-    <ClCompile Include="classes\Particle.cpp" />
-    <ClCompile Include="classes\ParticleForceRegistry.cpp" />
-    <ClCompile Include="classes\ParticleSystem.cpp" />
-    <ClCompile Include="classes\WindFieldForceGenerator.cpp" />
+    <ClCompile Include="classes\forces\BlackHoleForceGenerator.cpp" />
+    <ClCompile Include="classes\forces\DragForceGenerator.cpp" />
+    <ClCompile Include="classes\forces\ExplosionForceGenerator.cpp" />
+    <ClCompile Include="classes\forces\ForceGenerators.cpp" />
+    <ClCompile Include="classes\forces\GravityForceGenerator.cpp" />
+    <ClCompile Include="classes\forces\SphericalForceField.cpp" />
+    <ClCompile Include="classes\forces\ParticleForceRegistry.cpp" />
+    <ClCompile Include="classes\forces\WindFieldForceGenerator.cpp" />
+    <ClCompile Include="classes\particle_system\FireworkSystem.cpp" />
+    <ClCompile Include="classes\particle_system\Particle.cpp" />
+    <ClCompile Include="classes\particle_system\ParticleSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="render\Camera.cpp" />
     <ClCompile Include="render\Render.cpp" />
+    <ClCompile Include="render\RenderUtils.cpp" />
     <ClCompile Include="utils\callbacks.cpp" />
-    <ClCompile Include="utils\RenderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="classes\BlackHoleForceGenerator.h" />
-    <ClInclude Include="classes\DragForceGenerator.h" />
-    <ClInclude Include="classes\ExplosionForceGenerator.h" />
-    <ClInclude Include="classes\Firework.h" />
-    <ClInclude Include="classes\FireworkSystem.h" />
-    <ClInclude Include="classes\ForceGenerators.h" />
-    <ClInclude Include="classes\GravityForceGenerator.h" />
-    <ClInclude Include="classes\Particle.h" />
-    <ClInclude Include="classes\ParticleForceGenerator.h" />
-    <ClInclude Include="classes\ParticleForceRegistry.h" />
-    <ClInclude Include="classes\ParticleSystem.h" />
-    <ClInclude Include="classes\WindFieldForceGenerator.h" />
+    <ClInclude Include="classes\forces\BlackHoleForceGenerator.h" />
+    <ClInclude Include="classes\forces\DragForceGenerator.h" />
+    <ClInclude Include="classes\forces\ExplosionForceGenerator.h" />
+    <ClInclude Include="classes\forces\ForceGenerators.h" />
+    <ClInclude Include="classes\forces\GravityForceGenerator.h" />
+    <ClInclude Include="classes\forces\SphericalForceField.h" />
+    <ClInclude Include="classes\forces\ParticleForceGenerator.h" />
+    <ClInclude Include="classes\forces\ParticleForceRegistry.h" />
+    <ClInclude Include="classes\forces\WindFieldForceGenerator.h" />
+    <ClInclude Include="classes\particle_system\Firework.h" />
+    <ClInclude Include="classes\particle_system\FireworkSystem.h" />
+    <ClInclude Include="classes\particle_system\Particle.h" />
+    <ClInclude Include="classes\particle_system\ParticleSystem.h" />
     <ClInclude Include="render\Camera.h" />
     <ClInclude Include="render\Render.h" />
+    <ClInclude Include="render\RenderUtils.hpp" />
     <ClInclude Include="utils\callbacks.hpp" />
     <ClInclude Include="utils\checkML.h" />
     <ClInclude Include="utils\core.hpp" />
     <ClInclude Include="utils\maths.h" />
-    <ClInclude Include="utils\RenderUtils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

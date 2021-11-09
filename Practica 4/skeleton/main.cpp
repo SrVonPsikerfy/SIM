@@ -5,16 +5,16 @@
 #include <vector>
 
 #include "./utils/core.hpp"
-#include "./utils/RenderUtils.hpp"
 #include "./utils/callbacks.hpp"
 #include "./utils/checkML.h"
 
-#include "./classes/ParticleSystem.h"
-#include "./classes/FireworkSystem.h"
+#include "./render/RenderUtils.hpp"
 
-#include "./classes/ParticleForceRegistry.h"
+#include "./classes/particle_system/ParticleSystem.h"
+#include "./classes/particle_system/FireworkSystem.h"
 
-#include "./classes/ForceGenerators.h"
+#include "./classes/forces/ParticleForceRegistry.h"
+#include "./classes/forces/ForceGenerators.h"
 
 using namespace physx;
 
@@ -31,8 +31,6 @@ PxPvd* gPvd = NULL;
 PxDefaultCpuDispatcher* gDispatcher = NULL;
 PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
-
-RenderItem* axis;
 
 ParticleSystem* inputParticleSystem = nullptr/*, * automaticParticleSystem = nullptr*/;
 //FireworkSystem* frSystem = nullptr;
