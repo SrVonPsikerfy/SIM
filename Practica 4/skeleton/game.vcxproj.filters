@@ -47,6 +47,9 @@
     <ClCompile Include="classes\forces\SphericalForceField.cpp">
       <Filter>classes\forces</Filter>
     </ClCompile>
+    <ClCompile Include="classes\scene_system\SceneManager.cpp">
+      <Filter>classes\scene_system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render\Camera.h">
@@ -108,6 +111,9 @@
     </ClInclude>
     <ClInclude Include="classes\forces\SphericalForceField.h">
       <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\scene_system\SceneManager.h">
+      <Filter>classes\scene_system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

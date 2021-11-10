@@ -14,15 +14,15 @@ using namespace std;
 class FireworkSystem : public ParticleSystem
 {
 public:
-	FireworkSystem(Vector3 pos = { 0, 0, 0 }, double spawn = -1) : ParticleSystem(nullptr, pos, spawn) {};
+	FireworkSystem(ParticleForceRegistry* fR, Vector3 pos = { 0, 0, 0 }, double spawn = -1) 
+		: ParticleSystem(fR, pos, spawn) {};
 	virtual ~FireworkSystem() {};
 
 	void generateFirework(FireworkLoadType type, int payload, int lifes, ParticleData data);
 
 private:
-	virtual void onParticleDeath(int particle);
 	void ignite(Vector3 particlePos, FireworkLoadType loadType, int payload, int life);
 
-	float angToRad(float ang);
+	virtual void onParticleDeath(int particle);
 };
 #endif

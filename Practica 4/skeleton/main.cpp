@@ -1,20 +1,11 @@
 #include <ctype.h>
-
 #include <PxPhysicsAPI.h>
-
-#include <vector>
 
 #include "./utils/core.hpp"
 #include "./utils/callbacks.hpp"
 #include "./utils/checkML.h"
 
-#include "./render/RenderUtils.hpp"
-
-#include "./classes/particle_system/ParticleSystem.h"
-#include "./classes/particle_system/FireworkSystem.h"
-
-#include "./classes/forces/ParticleForceRegistry.h"
-#include "./classes/forces/ForceGenerators.h"
+#include "./classes/scene_system/SceneManager.h"
 
 using namespace physx;
 
@@ -32,11 +23,7 @@ PxDefaultCpuDispatcher* gDispatcher = NULL;
 PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
 
-ParticleSystem* inputParticleSystem = nullptr/*, * automaticParticleSystem = nullptr*/;
-//FireworkSystem* frSystem = nullptr;
-
-ParticleForceRegistry* fReg = nullptr;
-ForceGenerators* forces = nullptr;
+SceneManager* sceneManager = NULL;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -63,15 +50,7 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 	// ------------------------------------------------------
 
-	fReg = new ParticleForceRegistry();
-	forces = new ForceGenerators(GetCamera());
-
-	inputParticleSystem = new ParticleSystem(fReg);
-	inputParticleSystem->addForceGenerator(forces->gravity);
-	inputParticleSystem->addForceGenerator(forces->wind);
-	inputParticleSystem->addForceGenerator(forces->bHole);
-	/*automaticParticleSystem = new ParticleSystem();
-	frSystem = new FireworkSystem();*/
+	sceneManager = new SceneManager(GetCamera());
 }
 
 // Function to configure what happens in each step of physics
@@ -81,12 +60,7 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
-	forces->addTime(fReg, t);
-	fReg->updateForces(t);
-
-	inputParticleSystem->update(t);
-	/*automaticParticleSystem->update(t);
-	frSystem->update(t);*/
+	sceneManager->update(t);
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
@@ -96,10 +70,6 @@ void stepPhysics(bool interactive, double t)
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
-	delete inputParticleSystem;
-	delete forces;
-	delete fReg;
-
 	PX_UNUSED(interactive);
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
@@ -112,6 +82,8 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 
 	gFoundation->release();
+
+	delete sceneManager;
 }
 
 // Function called when a key is pressed
@@ -119,52 +91,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	ParticleData pData;
-	FireworkLoadType type;
-	int randVel = (std::rand() % 30 + 20);
-
-	switch (toupper(key)) {
-	case ' ':
-		//offset iniSpeed acceleration damp invmass size deathTime prog color
-		pData = { { 0, 0, 0 }, GetCamera()->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
-		inputParticleSystem->generateBullet(GetCamera()->getTransform().p, pData);
-		break;
-	case 'X': {
-		double time = (((float)rand()) / RAND_MAX) / 16;
-		//automaticParticleSystem->spawnFountain(time);
-		break;
-	}
-	case 'F':
-		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, -10, 0 }, 0.999, 1, 2, 3, true, { 1, 1, 1, 1 } };
-		//frSystem->generateFirework(FireworkLoadType::FLOWER, 360, 1, pData);
-		break;
-	case 'P':
-		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, -10, 0 }, 0.999, 1, 2, 3, true, { 0, 1, 0, 1 } };
-		//frSystem->generateFirework(FireworkLoadType::SPHERE, 40, 1, pData);
-		break;
-	case 'O':
-		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, -10, 0 }, 0.999, 1, 2, 3, true, { 0, 0, 1, 1 } };
-		//frSystem->generateFirework(FireworkLoadType::RANDOM, 30, 2, pData);
-		break;
-	case 'R':
-		inputParticleSystem->reset();
-		/*automaticParticleSystem->reset();
-		frSystem->reset();*/
-		break;
-	case 'E':
-		forces->startTime();
-		inputParticleSystem->applyForceGenerator(forces->explosion, true);
-		break;
-	case 'B':
-		inputParticleSystem->applyForceGenerator(forces->bHole, false);
-		break;
-	case 'G':
-		inputParticleSystem->spawnOnSphere(Vector3(-63.5998802, -21.1999588, -74.1998520), 55, 50);
-		inputParticleSystem->spawnOnSphere(Vector3(-213.599884, 128.800049, 75.8001480), 55, 50);
-		break;
-	default:
-		break;
-}
+	sceneManager->handleInput(key);	
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)

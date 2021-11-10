@@ -1,7 +1,7 @@
 #include "ExplosionForceGenerator.h"
 
 void ExplosionForceGenerator::updateForce(Particle* particle, float t) {
-	if (particle->hasFiniteMass() || !onField(particle->getPos())) 
+	if (particle->hasFiniteMass() || !onField(particle->getPos()))
 		return;
 
 	Vector3 diff = particle->getPos() - fieldPos.p;
@@ -11,3 +11,16 @@ void ExplosionForceGenerator::updateForce(Particle* particle, float t) {
 	particle->addForce(x);
 }
 
+void ExplosionForceGenerator::update(double time) {
+	exTime -= time;
+
+	if (exTime <= 0) {
+		setActive(false);
+		exTime = exMaxTime;
+	}
+}
+
+void ExplosionForceGenerator::activateExplosion() {
+	if (exTime == exMaxTime)
+		setActive(true);
+}

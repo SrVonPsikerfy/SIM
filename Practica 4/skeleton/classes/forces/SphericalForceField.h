@@ -7,6 +7,9 @@
 
 class SphericalForceField : public ParticleForceGenerator
 {
+public:
+	Vector3 getPos() { return fieldPos.p; };
+
 protected: 
 	SphericalForceField(const Vector3& pos, const Vector4& color, double size);
 	virtual ~SphericalForceField();

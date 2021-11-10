@@ -1,8 +1,10 @@
 #include "FireworkSystem.h"
 
+#include "../../utils/maths.h"
 
 void FireworkSystem::generateFirework(FireworkLoadType type, int payload, int lifes, ParticleData data) {
 	particles.push_back(new Firework(type, payload, lifes, posSystem, data));
+	addForceLinks();
 }
 
 void FireworkSystem::onParticleDeath(int particle) {
@@ -22,9 +24,9 @@ void FireworkSystem::ignite(Vector3 particlePos, FireworkLoadType loadType, int 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < payload / 9; j++) {
 				float ang = 360.0f / (payload / 9);
-				float currentAng = angToRad(ang * j);
+				float currentAng = maths::radians(ang * j);
 
-				pData.offset = { 0, 0, 0 }; pData.acceleration = { 0, -10, 0 };
+				pData.offset = { 0, 0, 0 }; pData.acceleration = { 0, 0, 0 };
 
 				pData.initialSpeed = { (float)cos(currentAng) * ((i == 8) ? 20.0f : 15.0f) + velX[i],
 					(float)sin(currentAng) * ((i == 8) ? 20.0f : 15.0f) + velY[i], 0 };
@@ -36,6 +38,7 @@ void FireworkSystem::ignite(Vector3 particlePos, FireworkLoadType loadType, int 
 				if (i == 8) pData.color = { 1, 1, 0, 1 };
 
 				particles.push_back(new Particle(particlePos, pData));
+				addForceLinks();
 			}
 		}
 		break;
@@ -44,11 +47,11 @@ void FireworkSystem::ignite(Vector3 particlePos, FireworkLoadType loadType, int 
 		int vel = 20;
 		int meridians = payload / 2, parallels = payload - payload / 2;
 
-		float parallelAng = angToRad(180.0) / parallels;
-		float meridianAng = angToRad(360.0) / meridians;
+		float parallelAng = maths::radians(180.0) / parallels;
+		float meridianAng = maths::radians(360.0) / meridians;
 
 		for (int i = 0; i < parallels; i++) {
-			float parallelLatitude = angToRad(90.0);
+			float parallelLatitude = maths::radians(90.0);
 			parallelLatitude += parallelAng * i;
 
 			float parallelHeight = sin(parallelLatitude);
@@ -57,7 +60,7 @@ void FireworkSystem::ignite(Vector3 particlePos, FireworkLoadType loadType, int 
 			for (int j = 0; j < meridians; j++) {
 				float currMeridianAng = meridianAng * j;
 
-				pData.offset = { 0, 0, 0 }; pData.acceleration = { 0, -10, 0 };
+				pData.offset = { 0, 0, 0 }; pData.acceleration = { 0, 0, 0 };
 				pData.initialSpeed = { (float)cos(currMeridianAng) * parallelRadius * vel, parallelHeight * vel,
 					(float)sin(currMeridianAng) * parallelRadius * vel };
 
@@ -69,6 +72,7 @@ void FireworkSystem::ignite(Vector3 particlePos, FireworkLoadType loadType, int 
 				pData.color = { r1, r2, r3, 1 };
 
 				particles.push_back(new Particle(particlePos, pData));
+				addForceLinks();
 			}
 		}
 		break;
@@ -76,7 +80,7 @@ void FireworkSystem::ignite(Vector3 particlePos, FireworkLoadType loadType, int 
 	case FireworkLoadType::RANDOM: {
 		for (int i = 0; i < payload; i++) {
 			int vel = rand() % 5 + 3;
-			pData.offset = { 0, 0, 0 }; pData.acceleration = { 0, -10, 0 };
+			pData.offset = { 0, 0, 0 }; pData.acceleration = { 0, 0, 0 };
 
 			float v1 = rand() % 5 + 1, v2 = rand() % 5 + 1, v3 = rand() % 5 + 1;
 			pData.initialSpeed = { v1 * vel, v2 * vel, v3 * vel };
@@ -90,12 +94,9 @@ void FireworkSystem::ignite(Vector3 particlePos, FireworkLoadType loadType, int 
 
 			int randType = rand() % 2 + 1;
 			particles.push_back(new Firework((FireworkLoadType)randType, (int)rand() % 70, life--, particlePos, pData));
+			addForceLinks();
 		}
 		break;
 	}
 	}
-}
-
-float FireworkSystem::angToRad(float ang) {
-	return ang * (atan(1) * 4) / 180;
 }

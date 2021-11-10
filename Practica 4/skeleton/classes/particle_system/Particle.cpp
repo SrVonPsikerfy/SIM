@@ -93,5 +93,6 @@ void Particle::changeParticleThroughTime(double currentLifeTime) {
 
 	float nuevoSize = size * (deathTime - currentLifeTime) / deathTime;
 
-	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(nuevoSize)), &pose, color);
+	if (nuevoSize != 0)
+		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(nuevoSize)), &pose, color);
 }

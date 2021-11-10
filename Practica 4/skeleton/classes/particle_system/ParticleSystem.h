@@ -28,18 +28,19 @@ public:
 	void spawnOnSphere(Vector3 pos, double radius, int num);
 
 	void addForceGenerator(ParticleForceGenerator* fg);
-	void applyForceGenerator(ParticleForceGenerator* fg, bool instantForce);
+	void applyForceGenerator(ParticleForceGenerator* fg);
 
 protected:
 	virtual void onParticleDeath(int particle);
 	void releaseParticle(int numParticle);
 
 	void spawnParticle(double t);
-
 	void generateFountainParticle();
 
+	void addForceLinks();
+
 	std::vector<Particle*> particles;
-	std::list<ParticleForceGenerator*> fgs;
+	std::vector<ParticleForceGenerator*> fgs;
 	ParticleForceRegistry* fReg;
 
 	Vector3 posSystem;
