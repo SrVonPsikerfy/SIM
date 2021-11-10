@@ -50,6 +50,18 @@
     <ClCompile Include="classes\scene_system\SceneManager.cpp">
       <Filter>classes\scene_system</Filter>
     </ClCompile>
+    <ClCompile Include="classes\springs\ParticleAnchoredSpring.cpp">
+      <Filter>classes\springs</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\springs\ParticleBungee.cpp">
+      <Filter>classes\springs</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\springs\ParticleBuoyancy.cpp">
+      <Filter>classes\springs</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\springs\ParticleSpring.cpp">
+      <Filter>classes\springs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render\Camera.h">
@@ -114,6 +126,18 @@
     </ClInclude>
     <ClInclude Include="classes\scene_system\SceneManager.h">
       <Filter>classes\scene_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\springs\ParticleAnchoredSpring.h">
+      <Filter>classes\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\springs\ParticleBungee.h">
+      <Filter>classes\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\springs\ParticleBuoyancy.h">
+      <Filter>classes\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\springs\ParticleSpring.h">
+      <Filter>classes\springs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

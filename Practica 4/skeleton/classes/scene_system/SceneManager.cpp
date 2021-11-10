@@ -16,8 +16,6 @@ SceneManager::~SceneManager() {
 void SceneManager::handleInput(unsigned char key)
 {
 	ParticleData pData;
-	FireworkLoadType type;
-	int randVel = (std::rand() % 30 + 20);
 
 	switch (toupper(key)) {
 	case '1': case '2': case '3': case '4': case '5': case '6': {
@@ -142,6 +140,7 @@ void SceneManager::changeScene(Scenes newScene)
 		forcesScene();
 		break;
 	case SceneManager::Scenes::SPRINGS:
+		springScene();
 		break;
 	default:
 		break;
@@ -239,4 +238,12 @@ void SceneManager::blackHoleScene() {
 }
 
 void SceneManager::springScene() {
+	//Particle p1, p2;
+	//ParticleForceRegistry registry;
+
+	//ParticleSpring ps1(&p2, 2.0f, 3.5f);
+	//registry.add(&p1, ps1);
+
+	//ParticleSpring ps2(&p1, 2.0f, 3.5f);
+	//registry.add(&p2, ps2);
 }
