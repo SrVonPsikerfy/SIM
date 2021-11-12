@@ -21,13 +21,15 @@ struct ParticleData {
 	Vector4 color;
 };
 
+enum class Shape { SPHERE, CUBE };
+
 class Particle
 {
 public:
 	Particle();
 	Particle(Vector3 position, Vector3 velocity, Vector3 acceleration, Vector4 color,
 		double inverse_mass, double size, double time = 1, float damp = 0.999, bool prog = false);
-	Particle(Vector3 sysPos, ParticleData data);
+	Particle(Vector3 sysPos, ParticleData data, Shape sh = Shape::SPHERE);
 	virtual ~Particle();
 
 	virtual void update(double t);

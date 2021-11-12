@@ -54,6 +54,11 @@ void ParticleSystem::spawnOnSphere(Vector3 pos, double radius, int num) {
 	}
 }
 
+void ParticleSystem::addParticle(Particle* newP) {
+	particles.push_back(newP);
+	addForceLinks();
+}
+
 void ParticleSystem::addForceGenerator(ParticleForceGenerator* fg) {
 	fgs.push_back(fg);
 }

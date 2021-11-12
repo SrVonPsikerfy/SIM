@@ -38,7 +38,7 @@ Particle::Particle(Vector3 position, Vector3 velocity, Vector3 acceleration,
 	progThroughTime = prog;
 }
 
-Particle::Particle(Vector3 sysPos, ParticleData data) : death(false) {
+Particle::Particle(Vector3 sysPos, ParticleData data, Shape sh) : death(false) {
 
 	pos = sysPos + data.offset;
 	vel = data.initialSpeed;
@@ -49,7 +49,17 @@ Particle::Particle(Vector3 sysPos, ParticleData data) : death(false) {
 
 	size = data.size;
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
-	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(size)), &pose, data.color);
+	switch (sh)
+	{
+	default:
+	case Shape::SPHERE:
+		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(size)), &pose, data.color);
+		break;
+	case Shape::CUBE:
+		renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(size, size, size)), &pose, data.color);
+		break;
+	}
+	
 
 	inverse_mass = data.inv_mass;
 

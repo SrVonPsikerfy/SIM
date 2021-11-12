@@ -23,9 +23,6 @@
     <ClCompile Include="classes\forces\ExplosionForceGenerator.cpp">
       <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\forces\ForceGenerators.cpp">
-      <Filter>classes\forces</Filter>
-    </ClCompile>
     <ClCompile Include="classes\forces\GravityForceGenerator.cpp">
       <Filter>classes\forces</Filter>
     </ClCompile>
@@ -94,9 +91,6 @@
     <ClInclude Include="classes\forces\ExplosionForceGenerator.h">
       <Filter>classes\forces</Filter>
     </ClInclude>
-    <ClInclude Include="classes\forces\ForceGenerators.h">
-      <Filter>classes\forces</Filter>
-    </ClInclude>
     <ClInclude Include="classes\forces\GravityForceGenerator.h">
       <Filter>classes\forces</Filter>
     </ClInclude>
@@ -137,6 +131,9 @@
       <Filter>classes\springs</Filter>
     </ClInclude>
     <ClInclude Include="classes\springs\ParticleSpring.h">
+      <Filter>classes\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\springs\SpringForceGenerator.h">
       <Filter>classes\springs</Filter>
     </ClInclude>
   </ItemGroup>

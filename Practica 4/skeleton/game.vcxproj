@@ -260,7 +260,6 @@
     <ClCompile Include="classes\forces\BlackHoleForceGenerator.cpp" />
     <ClCompile Include="classes\forces\DragForceGenerator.cpp" />
     <ClCompile Include="classes\forces\ExplosionForceGenerator.cpp" />
-    <ClCompile Include="classes\forces\ForceGenerators.cpp" />
     <ClCompile Include="classes\forces\GravityForceGenerator.cpp" />
     <ClCompile Include="classes\forces\SphericalForceField.cpp" />
     <ClCompile Include="classes\forces\ParticleForceRegistry.cpp" />
@@ -283,7 +282,6 @@
     <ClInclude Include="classes\forces\BlackHoleForceGenerator.h" />
     <ClInclude Include="classes\forces\DragForceGenerator.h" />
     <ClInclude Include="classes\forces\ExplosionForceGenerator.h" />
-    <ClInclude Include="classes\forces\ForceGenerators.h" />
     <ClInclude Include="classes\forces\GravityForceGenerator.h" />
     <ClInclude Include="classes\forces\SphericalForceField.h" />
     <ClInclude Include="classes\forces\ParticleForceGenerator.h" />
@@ -298,6 +296,7 @@
     <ClInclude Include="classes\springs\ParticleBungee.h" />
     <ClInclude Include="classes\springs\ParticleBuoyancy.h" />
     <ClInclude Include="classes\springs\ParticleSpring.h" />
+    <ClInclude Include="classes\springs\SpringForceGenerator.h" />
     <ClInclude Include="render\Camera.h" />
     <ClInclude Include="render\Render.h" />
     <ClInclude Include="render\RenderUtils.hpp" />

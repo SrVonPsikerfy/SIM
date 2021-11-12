@@ -4,21 +4,16 @@
 #include "../../utils/checkML.h"
 #include "../../utils/core.hpp"
 
-#include "../forces/ParticleForceGenerator.h"
+#include "../springs/SpringForceGenerator.h"
 
-class ParticleSpring : public ParticleForceGenerator
+class ParticleSpring : public SpringForceGenerator
 {
 	// The other particle the spring is attached to
 	Particle* oppParticle;
 
-	// Elasticity constant
-	float k;
-
-	float restLength;
-
 public:
 	ParticleSpring(Particle* opp, float kFactor, float rLength) 
-		: oppParticle(opp), k(kFactor), restLength(rLength) {};
+		: SpringForceGenerator(kFactor, rLength), oppParticle(opp) {};
 
 	virtual void updateForce(Particle* particle, float t);
 };

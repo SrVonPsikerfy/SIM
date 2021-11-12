@@ -1,9 +1,15 @@
 #include "SceneManager.h"
 
+#include "../../utils/maths.h"
+
 SceneManager::SceneManager(Camera* cam) {
 	fReg = new ParticleForceRegistry();
 
 	camera = cam;
+
+	axisPos = physx::PxTransform(0, 0, 0);
+	axis = new RenderItem(CreateShape(physx::PxSphereGeometry(0.5)), &axisPos, { 1, 0, 0, 1 });
+	RegisterRenderItem(axis);
 
 	currScene = Scenes::DEFAULT;
 	defaultScene();
@@ -11,6 +17,9 @@ SceneManager::SceneManager(Camera* cam) {
 
 SceneManager::~SceneManager() {
 	free();
+
+	if (axis != nullptr) 
+		axis->release();
 }
 
 void SceneManager::handleInput(unsigned char key)
@@ -18,14 +27,36 @@ void SceneManager::handleInput(unsigned char key)
 	ParticleData pData;
 
 	switch (toupper(key)) {
-	case '1': case '2': case '3': case '4': case '5': case '6': {
+	case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': {
 		changeScene((Scenes)((int)key - '0' - 1));
 		break;
 	}
+	case '+': {
+		if (currScene != Scenes::ANCHORED_SPRING || currScene != Scenes::SPRING)
+			return;
+
+		((SpringForceGenerator*)forces[2])->addElasticity(0.1f);
+		if (currScene == Scenes::SPRING)
+			((SpringForceGenerator*)forces[3])->addElasticity(0.1f);
+		break;
+	}
+	case '-': {
+		if (currScene != Scenes::ANCHORED_SPRING || currScene != Scenes::SPRING)
+			return;
+
+		((SpringForceGenerator*)forces[2])->addElasticity(-0.1f);
+		if (currScene == Scenes::SPRING)
+			((SpringForceGenerator*)forces[3])->addElasticity(0.1f);
+		break;
+	}
 	case ' ': {
-		//offset iniSpeed acceleration damp invmass size deathTime prog color
-		pData = { { 0, 0, 0 }, camera->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
-		pSys[0]->generateBullet(camera->getTransform().p, pData);
+		if (currScene < Scenes::ANCHORED_SPRING) {
+			//offset iniSpeed acceleration damp invmass size deathTime prog color
+			pData = { { 0, 0, 0 }, camera->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
+			pSys[0]->generateBullet(camera->getTransform().p, pData);
+		}
+		else if (currScene == Scenes::ANCHORED_SPRING || currScene == Scenes::SPRING)
+			((ExplosionForceGenerator*)forces[1])->activateExplosion();
 		break;
 	}
 	case 'X': {
@@ -89,6 +120,25 @@ void SceneManager::handleInput(unsigned char key)
 			pSys[0]->spawnOnSphere(((SphericalForceField*)forces[2])->getPos(), 55, 50);
 		break;
 	}
+	case 'Z': {
+		if (currScene != Scenes::BUOYANCY)
+			break;
+
+		ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, maths::random<double>(0.5, 5.0), 2, 10000, false, { 1, 0, 1, 0 } };
+		Particle* newP = new Particle({ maths::random<float>(-15, 15), maths::random<float>(10, 40), maths::random<float>(-15, 15) },
+			data, Shape::CUBE);
+
+		pSys[0]->addParticle(newP);
+		break;
+	}
+	case 'H': {
+		if (currScene != Scenes::BUNGEE)
+			break;
+
+		Vector3 vel = pSys[0]->getParticles()[0]->getVelocity();
+		pSys[0]->getParticles()[0]->setVelocity(Vector3(-vel.x, vel.y, vel.z));
+		break;
+	}
 	default:
 		break;
 	}
@@ -139,8 +189,17 @@ void SceneManager::changeScene(Scenes newScene)
 	case SceneManager::Scenes::FORCES:
 		forcesScene();
 		break;
-	case SceneManager::Scenes::SPRINGS:
+	case SceneManager::Scenes::ANCHORED_SPRING:
+		anchoredSpringScene();
+		break;
+	case SceneManager::Scenes::SPRING:
 		springScene();
+		break;
+	case SceneManager::Scenes::BUOYANCY:
+		buoyancyScene();
+		break;
+	case SceneManager::Scenes::BUNGEE:
+		bungeeScene();
 		break;
 	default:
 		break;
@@ -237,13 +296,77 @@ void SceneManager::blackHoleScene() {
 	pSys.push_back(spawnPS);
 }
 
-void SceneManager::springScene() {
-	//Particle p1, p2;
-	//ParticleForceRegistry registry;
+void SceneManager::anchoredSpringScene() {
+	forces.push_back(new GravityForceGenerator({ 0, -10, 0 }));
+	forces.push_back(new ExplosionForceGenerator({ 0, 0, 0 }, 1000, 30, 0.5));
+	forces[1]->setActive(false);
 
-	//ParticleSpring ps1(&p2, 2.0f, 3.5f);
-	//registry.add(&p1, ps1);
+	ParticleSystem* springsPS = new ParticleSystem(fReg);
+	springsPS->addForceGenerator(forces[0]);
+	springsPS->addForceGenerator(forces[1]);
+	pSys.push_back(springsPS);
 
-	//ParticleSpring ps2(&p1, 2.0f, 3.5f);
-	//registry.add(&p2, ps2);
+	ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 } , { 0, 0, 0 }, 0.7, 1, 2, 10000, false, { 1, 1, 1, 1 } };
+	Particle* newP = new Particle({ 0, 1, 0 }, data);
+	forces.push_back(new ParticleAnchoredSpring(Vector3(0, 0, 0), 2.0f, 3.5f));
+
+	fReg->add(newP, forces[2]);
+	springsPS->addParticle(newP);
 }
+
+void SceneManager::springScene() {
+	forces.push_back(new GravityForceGenerator({ 0, -10, 0 }));
+	forces.push_back(new ExplosionForceGenerator({ 0, 0, 0 }, 1000, 30, 0.5));
+	forces[1]->setActive(false);
+
+	ParticleSystem* springsPS = new ParticleSystem(fReg);
+	springsPS->addForceGenerator(forces[0]);
+	springsPS->addForceGenerator(forces[1]);
+	pSys.push_back(springsPS);
+
+	ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 } , { 0, 0, 0 }, 0.7, 1, 2, 10000, false, { 0, 1, 0, 1 } };
+	Particle* newP = new Particle({ 10, 30, 0 }, data);
+	ParticleData data2 = { { 0, 0, 0 }, { 0, 0, 0 } , { 0, 0, 0 }, 0.7, 1, 2, 10000, false, { 0, 0, 1, 1 } };
+	Particle* newP2 = new Particle({ -10, 30, 0 }, data2);
+
+	forces.push_back(new ParticleSpring(newP2, 2.0f, 3.5f));
+	forces.push_back(new ParticleSpring(newP, 3.0f, 3.5f));
+
+	fReg->add(newP, forces[2]);
+	fReg->add(newP2, forces[3]);
+	springsPS->addParticle(newP);
+	springsPS->addParticle(newP2);
+}
+
+void SceneManager::buoyancyScene() {
+	forces.push_back(new GravityForceGenerator({ 0, -10, 0 }));
+	forces.push_back(new ParticleBuoyancy(Vector3(0, 0, 0), 1.0f, 0.15, 40.0f));
+
+	ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 0.5, 2, 10000, false, { 1, 0, 1, 0 } };
+	Particle* newP = new Particle({ 0, 35, 0 }, data, Shape::CUBE);
+
+	ParticleSystem* buoyancyPS = new ParticleSystem(fReg);
+	buoyancyPS->addForceGenerator(forces[0]);
+	buoyancyPS->addForceGenerator(forces[1]);
+	pSys.push_back(buoyancyPS);
+
+	buoyancyPS->addParticle(newP);
+}
+
+void SceneManager::bungeeScene() {
+	ParticleData data = { { 0, 0, 0 }, { 10, 0, 0 } , { 0, 0, 0 }, 1, 1, 2, 10000, false, { 1, 1, 0, 1 } };
+	Particle* newP = new Particle({ 0, 0, 0 }, data);
+	ParticleData data2 = { { 0, 0, 0 }, { 0, 0, 0 } , { 0, 0, 0 }, 0.7, 1, 2, 10000, false, { 0, 1, 1, 1 } };
+	Particle* newP2 = new Particle({ 30, 30, 0 }, data2);
+
+	forces.push_back(new ParticleBungee(newP, 2.0f, 15.0f));
+	fReg->add(newP2, forces[0]);
+
+	ParticleSystem* bungeePS = new ParticleSystem(fReg);
+	bungeePS->addForceGenerator(forces[0]);
+	pSys.push_back(bungeePS);
+
+	bungeePS->addParticle(newP);
+	bungeePS->addParticle(newP2);
+}
+

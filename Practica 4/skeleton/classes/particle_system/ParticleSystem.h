@@ -16,10 +16,12 @@ enum class SpawnType { NONE, FOUNTAIN };
 
 class ParticleSystem {
 public:
-	ParticleSystem(ParticleForceRegistry* fR, Vector3 pos = { 0, 0, 0 }, double spawn = -1) : 
+	ParticleSystem(ParticleForceRegistry* fR, Vector3 pos = { 0, 0, 0 }, double spawn = -1) :
 		spawnTime(spawn), posSystem(pos), spType(SpawnType::NONE), fReg(fR) {};
 	virtual ~ParticleSystem();
 
+	std::vector<Particle*>& getParticles() { return particles; };
+	void addParticle(Particle* newP);
 	void update(double t);
 	void reset();
 

@@ -4,21 +4,16 @@
 #include "../../utils/checkML.h"
 #include "../../utils/core.hpp"
 
-#include "../forces/ParticleForceGenerator.h"
+#include "../springs/SpringForceGenerator.h"
 
-class ParticleAnchoredSpring : public ParticleForceGenerator
+class ParticleAnchoredSpring : public SpringForceGenerator
 {
 	// Position of the other end of the spring 
-	Vector3* anchor;
-
-	// Elasticity constant 
-	float k;
-
-	float restLength;
+	Vector3 anchor;
 
 public:
-	ParticleAnchoredSpring(Vector3* anch, float kFactor, float rLength)
-		: anchor(anch), k(kFactor), restLength(rLength) {};
+	ParticleAnchoredSpring(Vector3 anch, float kFactor, float rLength)
+		: SpringForceGenerator(kFactor, rLength), anchor(anch) {};
 
 	virtual void updateForce(Particle* particle, float t);
 };

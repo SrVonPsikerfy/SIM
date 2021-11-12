@@ -1,5 +1,5 @@
-#ifndef PARTICLEBUNGEE_H
-#define PARTICLEBUNGEE_H
+#ifndef PARTICLEBUOYANCY_H
+#define PARTICLEBUOYANCY_H
 
 #include "../../utils/checkML.h"
 #include "../../utils/core.hpp"
@@ -18,9 +18,11 @@ class ParticleBuoyancy : public ParticleForceGenerator
 	// Density of the liquid the object is submerged in
 	float liquidDensity;
 
+	physx::PxTransform waterCeilingPos;
+	RenderItem* waterCeiling;
+
 public:
-	ParticleBuoyancy(float _maxDepth, float _volume, float _waterHeight, float _liquidDensity = 1000.0f) :
-		maxDepth(_maxDepth), volume(_volume), waterHeight(_waterHeight), liquidDensity(_liquidDensity) {};
+	ParticleBuoyancy(Vector3 pos, float _maxDepth, float _volume, float _waterHeight, float _liquidDensity = 1000.0f);
 
 	virtual void updateForce(Particle* particle, float t);
 };

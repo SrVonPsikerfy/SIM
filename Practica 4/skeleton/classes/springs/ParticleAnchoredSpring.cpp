@@ -3,7 +3,7 @@
 void ParticleAnchoredSpring::updateForce(Particle* particle, float t)
 {
 	Vector3 f = particle->getPos();
-	f -= *anchor;
+	f -= anchor;
 
 	// Length
 	float length = f.normalize();
