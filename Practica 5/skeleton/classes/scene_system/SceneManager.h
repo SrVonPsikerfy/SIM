@@ -21,6 +21,7 @@
 #include "../springs/ParticleBuoyancy.h"
 
 using namespace std;
+using namespace physx;
 
 using Forces = vector<ParticleForceGenerator*>;
 using ParticleSystems = vector<ParticleSystem*>;
@@ -30,18 +31,21 @@ class SceneManager
 	enum class Scenes { DEFAULT, PARTICLE_SYSTEM, FIREWORK_SYSTEM, FORCE, FORCES, ANCHORED_SPRING, SPRING, BUOYANCY, BUNGEE };
 
 public:
-	SceneManager(Camera* cam);
+	SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam);
 	~SceneManager();
 
 	void update(double time);
 	void handleInput(unsigned char key);
 
 private:
+	PxPhysics* gPhysics;
+	PxScene* gScene;
 	Camera* camera;
+
 	ParticleForceRegistry* fReg;
-	Forces forces;
 	ParticleSystems pSys;
 	Scenes currScene;
+	Forces forces;
 
 	physx::PxTransform axisPos;
 	RenderItem* axis;
@@ -60,6 +64,5 @@ private:
 	void springScene();
 	void buoyancyScene();
 	void bungeeScene();
-
 };
 #endif

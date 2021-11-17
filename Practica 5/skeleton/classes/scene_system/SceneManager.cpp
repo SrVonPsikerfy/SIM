@@ -2,10 +2,12 @@
 
 #include "../../utils/maths.h"
 
-SceneManager::SceneManager(Camera* cam) {
-	fReg = new ParticleForceRegistry();
-
+SceneManager::SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam) {
+	gPhysics = gPhys;
+	gScene = gSc;
 	camera = cam;
+
+	fReg = new ParticleForceRegistry();
 
 	axisPos = physx::PxTransform(0, 0, 0);
 	axis = new RenderItem(CreateShape(physx::PxSphereGeometry(0.5)), &axisPos, { 1, 0, 0, 1 });

@@ -21,6 +21,7 @@ PxPvd* gPvd = NULL;
 
 PxDefaultCpuDispatcher* gDispatcher = NULL;
 PxScene* gScene = NULL;
+
 ContactReportCallback gContactReportCallback;
 
 SceneManager* sceneManager = NULL;
@@ -40,7 +41,8 @@ void initPhysics(bool interactive)
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 
-	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
+	// ------------------------------------------------------
+
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
@@ -48,9 +50,10 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+
 	// ------------------------------------------------------
 
-	sceneManager = new SceneManager(GetCamera());
+	sceneManager = new SceneManager(gPhysics, gScene, GetCamera());
 }
 
 // Function to configure what happens in each step of physics
@@ -60,10 +63,11 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
-	sceneManager->update(t);
-
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+
+	if(sceneManager)
+		sceneManager->update(t);
 }
 
 // Function to clean data
