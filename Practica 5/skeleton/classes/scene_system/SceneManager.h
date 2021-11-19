@@ -28,7 +28,7 @@ using ParticleSystems = vector<ParticleSystem*>;
 
 class SceneManager
 {
-	enum class Scenes { DEFAULT, PARTICLE_SYSTEM, FIREWORK_SYSTEM, FORCE, FORCES, ANCHORED_SPRING, SPRING, BUOYANCY, BUNGEE };
+	enum class Scenes { DEFAULT, PARTICLE_SYSTEM, FIREWORK_SYSTEM, FORCE, FORCES, SPRING, BUOYANCY, RIGID_SOLID };
 
 public:
 	SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam);

@@ -124,7 +124,7 @@ void SceneManager::handleInput(unsigned char key)
 		if (currScene != Scenes::BUOYANCY)
 			break;
 
-		ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 1 / maths::random<float>(5000.0, 8000.0), 2, 10000, false, { 1, 0, 1, 0 } };
+		ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 1 / maths::random<float>(5000.0, 7000.0), 2, 10000, false, { 1, 0, 1, 0 } };
 		Particle* newP = new Particle({ maths::random<float>(-15, 15), maths::random<float>(10, 40), maths::random<float>(-15, 15) },
 			data, Shape::CUBE);
 
