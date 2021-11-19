@@ -34,7 +34,7 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case '+': {
-		if (currScene != Scenes::ANCHORED_SPRING || currScene != Scenes::SPRING)
+		if (currScene != Scenes::SPRING)
 			return;
 
 		((SpringForceGenerator*)forces[2])->addElasticity(0.1f);
@@ -43,7 +43,7 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case '-': {
-		if (currScene != Scenes::ANCHORED_SPRING || currScene != Scenes::SPRING)
+		if (currScene != Scenes::SPRING)
 			return;
 
 		((SpringForceGenerator*)forces[2])->addElasticity(-0.1f);
@@ -52,12 +52,12 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case ' ': {
-		if (currScene < Scenes::ANCHORED_SPRING) {
+		if (currScene < Scenes::SPRING) {
 			//offset iniSpeed acceleration damp invmass size deathTime prog color
 			pData = { { 0, 0, 0 }, camera->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
 			pSys[0]->generateBullet(camera->getTransform().p, pData);
 		}
-		else if (currScene == Scenes::ANCHORED_SPRING || currScene == Scenes::SPRING)
+		else if (currScene == Scenes::SPRING)
 			((ExplosionForceGenerator*)forces[1])->activateExplosion();
 		break;
 	}
@@ -134,7 +134,7 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case 'H': {
-		if (currScene != Scenes::BUNGEE)
+		if (currScene != Scenes::SPRING)
 			break;
 
 		Vector3 vel = pSys[0]->getParticles()[0]->getVelocity();
@@ -191,16 +191,13 @@ void SceneManager::changeScene(Scenes newScene)
 	case SceneManager::Scenes::FORCES:
 		forcesScene();
 		break;
-	case SceneManager::Scenes::ANCHORED_SPRING:
-		anchoredSpringScene();
-		break;
 	case SceneManager::Scenes::SPRING:
 		springScene();
 		break;
 	case SceneManager::Scenes::BUOYANCY:
 		buoyancyScene();
 		break;
-	case SceneManager::Scenes::BUNGEE:
+	case SceneManager::Scenes::RIGID_SOLID:
 		bungeeScene();
 		break;
 	default:
