@@ -18,7 +18,7 @@ SceneManager::SceneManager(Camera* cam) {
 SceneManager::~SceneManager() {
 	free();
 
-	if (axis != nullptr) 
+	if (axis != nullptr)
 		axis->release();
 }
 
@@ -124,7 +124,7 @@ void SceneManager::handleInput(unsigned char key)
 		if (currScene != Scenes::BUOYANCY)
 			break;
 
-		ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, maths::random<double>(0.5, 5.0), 2, 10000, false, { 1, 0, 1, 0 } };
+		ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 1 / maths::random<float>(5000.0, 8000.0), 2, 10000, false, { 1, 0, 1, 0 } };
 		Particle* newP = new Particle({ maths::random<float>(-15, 15), maths::random<float>(10, 40), maths::random<float>(-15, 15) },
 			data, Shape::CUBE);
 
@@ -340,9 +340,9 @@ void SceneManager::springScene() {
 
 void SceneManager::buoyancyScene() {
 	forces.push_back(new GravityForceGenerator({ 0, -10, 0 }));
-	forces.push_back(new ParticleBuoyancy(Vector3(0, 0, 0), 1.0f, 0.15, 40.0f));
+	forces.push_back(new ParticleBuoyancy(Vector3(0, 0, 0), 1.0f, 8.0, 40.0f));
 
-	ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 0.5, 2, 10000, false, { 1, 0, 1, 0 } };
+	ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 1 / 6000.0, 2, 10000, false, { 1, 0, 1, 0 } };
 	Particle* newP = new Particle({ 0, 35, 0 }, data, Shape::CUBE);
 
 	ParticleSystem* buoyancyPS = new ParticleSystem(fReg);
