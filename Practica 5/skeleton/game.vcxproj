@@ -267,6 +267,7 @@
     <ClCompile Include="classes\particle_system\FireworkSystem.cpp" />
     <ClCompile Include="classes\particle_system\Particle.cpp" />
     <ClCompile Include="classes\particle_system\ParticleSystem.cpp" />
+    <ClCompile Include="classes\rigid_body\RigidBodySystem.cpp" />
     <ClCompile Include="classes\scene_system\SceneManager.cpp" />
     <ClCompile Include="classes\springs\ParticleAnchoredSpring.cpp" />
     <ClCompile Include="classes\springs\ParticleBungee.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="classes\particle_system\FireworkSystem.h" />
     <ClInclude Include="classes\particle_system\Particle.h" />
     <ClInclude Include="classes\particle_system\ParticleSystem.h" />
+    <ClInclude Include="classes\rigid_body\RigidBodySystem.h" />
     <ClInclude Include="classes\scene_system\SceneManager.h" />
     <ClInclude Include="classes\springs\ParticleAnchoredSpring.h" />
     <ClInclude Include="classes\springs\ParticleBungee.h" />

@@ -43,12 +43,13 @@ void initPhysics(bool interactive)
 
 	// ------------------------------------------------------
 
-	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
+
+	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
+
 	gScene = gPhysics->createScene(sceneDesc);
 
 	// ------------------------------------------------------
@@ -66,7 +67,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	if(sceneManager)
+	if (sceneManager)
 		sceneManager->update(t);
 }
 
@@ -76,18 +77,20 @@ void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
 
-	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
-	gDispatcher->release();
-	// -----------------------------------------------------
 	gPhysics->release();
+	gDispatcher->release();
+
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();
 
 	gFoundation->release();
 
-	delete sceneManager;
+	if (sceneManager) {
+		delete sceneManager;
+		sceneManager = NULL;
+	}
 }
 
 // Function called when a key is pressed
@@ -95,7 +98,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	sceneManager->handleInput(key);	
+	if (sceneManager)
+		sceneManager->handleInput(key);
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)

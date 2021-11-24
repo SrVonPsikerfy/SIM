@@ -40,6 +40,7 @@ public:
 private:
 	PxPhysics* gPhysics;
 	PxScene* gScene;
+
 	Camera* camera;
 
 	ParticleForceRegistry* fReg;

@@ -5,6 +5,7 @@
 #include "../../utils/checkML.h"
 
 #include "ParticleForceGenerator.h"
+#include "../rigid_body/RigidBodySystem.h"
 
 class ParticleForceRegistry
 {
@@ -15,6 +16,15 @@ protected:
 			particle(p), fg(fgen) {};
 
 		Particle* particle;
+		ParticleForceGenerator* fg;
+	};
+
+	// Storage for generator-rigid body entry
+	struct RigidBodyForceRegistration {
+		RigidBodyForceRegistration(RigidBody* rb, ParticleForceGenerator* fgen) :
+			rigidBody(rb), fg(fgen) {};
+
+		RigidBody* rigidBody;
 		ParticleForceGenerator* fg;
 	};
 

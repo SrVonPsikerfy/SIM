@@ -3,15 +3,24 @@
 #include "../../utils/maths.h"
 
 SceneManager::SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam) {
+
+	camera = cam;
+
 	gPhysics = gPhys;
 	gScene = gSc;
-	camera = cam;
+
+	gScene->setGravity(PxVec3(0.0f, -9.8f, 0.0f));
+
+	PxShape* shape = CreateShape(PxBoxGeometry(100, 1, 100));
+	PxRigidStatic* ground = gPhysics->createRigidStatic({ 0, 0, 0 });
+	ground->attachShape(*shape);
+	gScene->addActor(*ground);
+	RenderItem* rItem = new RenderItem(shape, ground, { 0.6, 0.2, 1, 1 });
 
 	fReg = new ParticleForceRegistry();
 
 	axisPos = physx::PxTransform(0, 0, 0);
-	axis = new RenderItem(CreateShape(physx::PxSphereGeometry(0.5)), &axisPos, { 1, 0, 0, 1 });
-	RegisterRenderItem(axis);
+	axis = new RenderItem(CreateShape(physx::PxSphereGeometry(10)), &axisPos, { 1, 0, 0, 1 });
 
 	currScene = Scenes::DEFAULT;
 	defaultScene();

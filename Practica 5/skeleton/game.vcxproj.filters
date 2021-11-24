@@ -59,6 +59,9 @@
     <ClCompile Include="classes\springs\ParticleSpring.cpp">
       <Filter>classes\springs</Filter>
     </ClCompile>
+    <ClCompile Include="classes\rigid_body\RigidBodySystem.cpp">
+      <Filter>classes\rigid_body</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render\Camera.h">
@@ -136,6 +139,9 @@
     <ClInclude Include="classes\springs\SpringForceGenerator.h">
       <Filter>classes\springs</Filter>
     </ClInclude>
+    <ClInclude Include="classes\rigid_body\RigidBodySystem.h">
+      <Filter>classes\rigid_body</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="render">
@@ -158,6 +164,9 @@
     </Filter>
     <Filter Include="classes\springs">
       <UniqueIdentifier>{7485ad0d-75b2-4baf-842d-dbf0657882be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\rigid_body">
+      <UniqueIdentifier>{30eda33f-a583-409a-9db4-5bd377ab520d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
