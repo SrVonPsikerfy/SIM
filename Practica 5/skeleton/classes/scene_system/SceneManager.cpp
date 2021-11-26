@@ -9,6 +9,8 @@ SceneManager::SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam) {
 	gPhysics = gPhys;
 	gScene = gSc;
 
+	// ------------------------------------------------------------
+
 	gScene->setGravity(PxVec3(0.0f, -9.8f, 0.0f));
 
 	PxShape* shape = CreateShape(PxBoxGeometry(100, 1, 100));
@@ -17,10 +19,15 @@ SceneManager::SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam) {
 	gScene->addActor(*ground);
 	RenderItem* rItem = new RenderItem(shape, ground, { 0.6, 0.2, 1, 1 });
 
+	RigidBodySystem* defaultRBS = new RigidBodySystem(gPhysics, gScene, PxTransform(Vector3(0, 40, 0)), 10, 3);
+	rbSys.push_back(defaultRBS);
+
+	// ------------------------------------------------------------
+
 	fReg = new ParticleForceRegistry();
 
 	axisPos = physx::PxTransform(0, 0, 0);
-	axis = new RenderItem(CreateShape(physx::PxSphereGeometry(10)), &axisPos, { 1, 0, 0, 1 });
+	axis = new RenderItem(CreateShape(physx::PxSphereGeometry(3)), &axisPos, { 1, 0, 0, 1 });
 
 	currScene = Scenes::DEFAULT;
 	defaultScene();
@@ -164,6 +171,9 @@ void SceneManager::update(double time) {
 
 	for (ParticleSystem* ps : pSys)
 		ps->update(time);
+
+	for (RigidBodySystem* rbs : rbSys)
+		rbs->update(time);
 }
 
 void SceneManager::free() {
@@ -176,6 +186,10 @@ void SceneManager::free() {
 	for (size_t j = 0; j < pSys.size(); j++)
 		delete pSys[j];
 	pSys.clear();
+
+	for (size_t t = 0; t < rbSys.size(); t++)
+		delete rbSys[t];
+	rbSys.clear();
 }
 
 void SceneManager::changeScene(Scenes newScene)

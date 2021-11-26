@@ -20,11 +20,14 @@
 #include "../springs/ParticleBungee.h"
 #include "../springs/ParticleBuoyancy.h"
 
+#include "../rigid_body/RigidBodySystem.h"
+
 using namespace std;
 using namespace physx;
 
-using Forces = vector<ParticleForceGenerator*>;
 using ParticleSystems = vector<ParticleSystem*>;
+using RigidBodySystems = vector<RigidBodySystem*>;
+using Forces = vector<ParticleForceGenerator*>;
 
 class SceneManager
 {
@@ -45,8 +48,10 @@ private:
 
 	ParticleForceRegistry* fReg;
 	ParticleSystems pSys;
-	Scenes currScene;
+	RigidBodySystems rbSys;
 	Forces forces;
+
+	Scenes currScene;
 
 	physx::PxTransform axisPos;
 	RenderItem* axis;
