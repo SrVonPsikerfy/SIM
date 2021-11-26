@@ -25,7 +25,7 @@ public:
 	~RigidBodySystem();
 
 	void update(double t);
-	void addBody(Vector3 offset = { 0, 0, 0 }, float sizeSet = 1, float lifeSet = 4, bool colorR = true, Vector4 colorset = { 1, 0, 0, 1.0 });
+	void addBody(Vector3 offset = { 0, 0, 0 }, float sizeSet = 1, float lifeSet = 5, bool colorR = true, Vector4 colorset = { 1, 0, 0, 1.0 });
 	 
 private:
 	void integrate(double t);
