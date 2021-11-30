@@ -24,7 +24,7 @@ SceneManager::SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam) {
 
 	// ------------------------------------------------------------
 
-	fReg = new ParticleForceRegistry();
+	fReg = new ForceRegistry();
 
 	axisPos = physx::PxTransform(0, 0, 0);
 	axis = new RenderItem(CreateShape(physx::PxSphereGeometry(3)), &axisPos, { 1, 0, 0, 1 });

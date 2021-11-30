@@ -262,7 +262,7 @@
     <ClCompile Include="classes\forces\ExplosionForceGenerator.cpp" />
     <ClCompile Include="classes\forces\GravityForceGenerator.cpp" />
     <ClCompile Include="classes\forces\SphericalForceField.cpp" />
-    <ClCompile Include="classes\forces\ParticleForceRegistry.cpp" />
+    <ClCompile Include="classes\forces\ForceRegistry.cpp" />
     <ClCompile Include="classes\forces\WindFieldForceGenerator.cpp" />
     <ClCompile Include="classes\particle_system\FireworkSystem.cpp" />
     <ClCompile Include="classes\particle_system\Particle.cpp" />
@@ -284,14 +284,17 @@
     <ClInclude Include="classes\forces\DragForceGenerator.h" />
     <ClInclude Include="classes\forces\ExplosionForceGenerator.h" />
     <ClInclude Include="classes\forces\GravityForceGenerator.h" />
+    <ClInclude Include="classes\forces\RigidBodyForceGenerator.h" />
+    <ClInclude Include="classes\forces\RigidBodyForceGenerator.h" />
     <ClInclude Include="classes\forces\SphericalForceField.h" />
     <ClInclude Include="classes\forces\ParticleForceGenerator.h" />
-    <ClInclude Include="classes\forces\ParticleForceRegistry.h" />
+    <ClInclude Include="classes\forces\ForceRegistry.h" />
     <ClInclude Include="classes\forces\WindFieldForceGenerator.h" />
     <ClInclude Include="classes\particle_system\Firework.h" />
     <ClInclude Include="classes\particle_system\FireworkSystem.h" />
     <ClInclude Include="classes\particle_system\Particle.h" />
     <ClInclude Include="classes\particle_system\ParticleSystem.h" />
+    <ClInclude Include="classes\rigid_body\RigidBody.h" />
     <ClInclude Include="classes\rigid_body\RigidBodySystem.h" />
     <ClInclude Include="classes\scene_system\SceneManager.h" />
     <ClInclude Include="classes\springs\ParticleAnchoredSpring.h" />

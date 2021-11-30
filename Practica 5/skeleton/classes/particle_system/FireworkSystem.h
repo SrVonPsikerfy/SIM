@@ -14,7 +14,7 @@ using namespace std;
 class FireworkSystem : public ParticleSystem
 {
 public:
-	FireworkSystem(ParticleForceRegistry* fR, Vector3 pos = { 0, 0, 0 }, double spawn = -1) 
+	FireworkSystem(ForceRegistry* fR, Vector3 pos = { 0, 0, 0 }, double spawn = -1) 
 		: ParticleSystem(fR, pos, spawn) {};
 	virtual ~FireworkSystem() {};
 

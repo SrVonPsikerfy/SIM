@@ -26,7 +26,7 @@
     <ClCompile Include="classes\forces\GravityForceGenerator.cpp">
       <Filter>classes\forces</Filter>
     </ClCompile>
-    <ClCompile Include="classes\forces\ParticleForceRegistry.cpp">
+    <ClCompile Include="classes\forces\ForceRegistry.cpp">
       <Filter>classes\forces</Filter>
     </ClCompile>
     <ClCompile Include="classes\forces\WindFieldForceGenerator.cpp">
@@ -100,7 +100,7 @@
     <ClInclude Include="classes\forces\ParticleForceGenerator.h">
       <Filter>classes\forces</Filter>
     </ClInclude>
-    <ClInclude Include="classes\forces\ParticleForceRegistry.h">
+    <ClInclude Include="classes\forces\ForceRegistry.h">
       <Filter>classes\forces</Filter>
     </ClInclude>
     <ClInclude Include="classes\forces\WindFieldForceGenerator.h">
@@ -141,6 +141,13 @@
     </ClInclude>
     <ClInclude Include="classes\rigid_body\RigidBodySystem.h">
       <Filter>classes\rigid_body</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\RigidBodyForceGenerator.h" />
+    <ClInclude Include="classes\rigid_body\RigidBody.h">
+      <Filter>classes\rigid_body</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\RigidBodyForceGenerator.h">
+      <Filter>classes\forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

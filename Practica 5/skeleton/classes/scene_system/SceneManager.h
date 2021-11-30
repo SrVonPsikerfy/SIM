@@ -8,7 +8,8 @@
 #include "../particle_system/ParticleSystem.h"
 #include "../particle_system/FireworkSystem.h"
 
-#include "../forces/ParticleForceRegistry.h"
+#include "../forces/ForceRegistry.h"
+
 #include "../forces/GravityForceGenerator.h"
 #include "../forces/DragForceGenerator.h"
 #include "../forces/WindFieldForceGenerator.h"
@@ -46,7 +47,7 @@ private:
 
 	Camera* camera;
 
-	ParticleForceRegistry* fReg;
+	ForceRegistry* fReg;
 	ParticleSystems pSys;
 	RigidBodySystems rbSys;
 	Forces forces;

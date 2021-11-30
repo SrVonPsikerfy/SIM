@@ -9,14 +9,15 @@
 
 #include "Particle.h"
 
+#include "../forces/ForceRegistry.h"
+
 #include "../forces/ParticleForceGenerator.h"
-#include "../forces/ParticleForceRegistry.h"
 
 enum class SpawnType { NONE, FOUNTAIN };
 
 class ParticleSystem {
 public:
-	ParticleSystem(ParticleForceRegistry* fR, Vector3 pos = { 0, 0, 0 }, double spawn = -1) :
+	ParticleSystem(ForceRegistry* fR, Vector3 pos = { 0, 0, 0 }, double spawn = -1) :
 		spawnTime(spawn), posSystem(pos), spType(SpawnType::NONE), fReg(fR) {};
 	virtual ~ParticleSystem();
 
@@ -43,7 +44,7 @@ protected:
 
 	std::vector<Particle*> particles;
 	std::vector<ParticleForceGenerator*> fgs;
-	ParticleForceRegistry* fReg;
+	ForceRegistry* fReg;
 
 	Vector3 posSystem;
 	SpawnType spType;
