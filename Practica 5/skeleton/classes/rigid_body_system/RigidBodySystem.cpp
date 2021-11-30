@@ -47,7 +47,7 @@ void RigidBodySystem::addBody(Vector3 offset, float sizeSet, float lifeSet, bool
 
 	rBodies.push_back(rb);
 
-	//addForceLinks();
+	addForceLinks();
 }
 
 void RigidBodySystem::addForceGenerator(RigidBodyForceGenerator* fg) {

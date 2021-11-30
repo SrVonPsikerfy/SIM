@@ -59,13 +59,15 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case ' ': {
-		if (currScene < Scenes::SPRING) {
+		if (currScene != Scenes::SPRING&& currScene != Scenes::RIGID_SOLID) {
 			//offset iniSpeed acceleration damp invmass size deathTime prog color
 			pData = { { 0, 0, 0 }, camera->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
 			pSys[0]->generateBullet(camera->getTransform().p, pData);
 		}
 		else if (currScene == Scenes::SPRING)
 			((ExplosionForceGenerator*)pForces[1])->activateExplosion();
+		else
+			((ExplosionRigidForceGenerator*)rbForces[0])->activateExplosion();
 		break;
 	}
 	case 'X': {
@@ -157,6 +159,10 @@ void SceneManager::update(double time) {
 	fReg->updateForces(time);
 
 	for (ParticleForceGenerator* fg : pForces)
+		if (fg->isActive())
+			fg->update(time);
+
+	for (RigidBodyForceGenerator* fg : rbForces)
 		if (fg->isActive())
 			fg->update(time);
 
@@ -393,10 +399,10 @@ void SceneManager::bungeeScene() {
 void SceneManager::rigidBodyScene()
 {
 	// ---------------------- FORCES -----------------------------------
-	rbForces.push_back(new WindRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 60));
-	/*rbForces.push_back(new TorqueForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 60));
-	rbForces.push_back(new ExplosionRigidBodyForceGenerator({ 0, 0, 0 }, 1000, 30, 0.5));
-	rbForces[2]->setActive(false);*/
+	//rbForces.push_back(new WindRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 30));
+	//rbForces.push_back(new TorqueRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 30));
+	rbForces.push_back(new ExplosionRigidForceGenerator({ 0, 0, 0 }, 1000, 30, 0.5));
+	rbForces[0]->setActive(false);
 
 	// ---------------------- STATIC -----------------------------------
 	StaticBody* floor = new StaticBody;

@@ -13,7 +13,7 @@ class RigidBodySystem
 {
 public:
 	RigidBodySystem(ForceRegistry* fR, PxPhysics* gPhys, PxScene* gSc, PxTransform pxSet, int maxP = 10, double spT = -1)
-		: fReg(fReg), gPhysics(gPhys), gScene(gSc), origin(pxSet), maxParticles(maxP), spawnTime(spT) {};
+		: fReg(fR), gPhysics(gPhys), gScene(gSc), origin(pxSet), maxParticles(maxP), spawnTime(spT) {};
 	~RigidBodySystem() { free(); };
 
 	void update(double t);
