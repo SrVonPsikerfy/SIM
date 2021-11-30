@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="utils\callbacks.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="render\Camera.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\Render.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\RenderUtils.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\scene_system\SceneManager.cpp">
+      <Filter>classes\scene_system</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\particle_system\FireworkSystem.cpp">
+      <Filter>classes\particle_system</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\particle_system\Particle.cpp">
+      <Filter>classes\particle_system</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\particle_system\ParticleSystem.cpp">
+      <Filter>classes\particle_system</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\rigid_body_system\RigidBodySystem.cpp">
+      <Filter>classes\rigid_body_system</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\ForceRegistry.cpp">
+      <Filter>classes\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\SphericalForceField.cpp">
+      <Filter>classes\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\springs\ParticleAnchoredSpring.cpp">
+      <Filter>classes\forces\springs</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\springs\ParticleBungee.cpp">
+      <Filter>classes\forces\springs</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\springs\ParticleBuoyancy.cpp">
+      <Filter>classes\forces\springs</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\springs\ParticleSpring.cpp">
+      <Filter>classes\forces\springs</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\particles\WindFieldForceGenerator.cpp">
+      <Filter>classes\forces\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\particles\GravityForceGenerator.cpp">
+      <Filter>classes\forces\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\particles\ExplosionForceGenerator.cpp">
+      <Filter>classes\forces\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\particles\DragForceGenerator.cpp">
+      <Filter>classes\forces\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\particles\BlackHoleForceGenerator.cpp">
+      <Filter>classes\forces\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\rigid_bodies\WindRigidForceGenerator.cpp">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\rigid_bodies\TorqueRigidForceGenerator.cpp">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClCompile>
+    <ClCompile Include="classes\forces\rigid_bodies\ExplosionRigidForceGenerator.cpp">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="render">
+      <UniqueIdentifier>{d04b4f9f-5a69-465e-8070-25c6d0bcd3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{fc07d345-92b3-4d18-a5f0-0e003fdc26a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes">
+      <UniqueIdentifier>{2706dfa3-3045-4225-93a4-a7e01f5ebb77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\particle_system">
+      <UniqueIdentifier>{e66476e6-d2cd-44ab-8d12-3566b87ebf89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\scene_system">
+      <UniqueIdentifier>{4011da3a-9e54-4a02-8c27-77991b7d79bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\forces">
+      <UniqueIdentifier>{fb8c83c9-4a1b-4519-a130-0a5d5caffef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\forces\springs">
+      <UniqueIdentifier>{7485ad0d-75b2-4baf-842d-dbf0657882be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\forces\particles">
+      <UniqueIdentifier>{3a1fa77d-84e6-4fe7-88f2-d1fec345705c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\forces\rigid_bodies">
+      <UniqueIdentifier>{e5124229-4582-41c4-9644-06526c467c1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\rigid_body_system">
+      <UniqueIdentifier>{9476b058-0027-489c-b829-4268818a00ad}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utils\callbacks.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\checkML.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\core.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\maths.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="render\Camera.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\Render.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\RenderUtils.hpp">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\scene_system\SceneManager.h">
+      <Filter>classes\scene_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\particle_system\Firework.h">
+      <Filter>classes\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\particle_system\FireworkSystem.h">
+      <Filter>classes\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\particle_system\Particle.h">
+      <Filter>classes\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\particle_system\ParticleSystem.h">
+      <Filter>classes\particle_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\rigid_body_system\RigidBody.h">
+      <Filter>classes\rigid_body_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\rigid_body_system\RigidBodySystem.h">
+      <Filter>classes\rigid_body_system</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\ForceRegistry.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\SphericalForceField.h">
+      <Filter>classes\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\springs\ParticleAnchoredSpring.h">
+      <Filter>classes\forces\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\springs\ParticleBungee.h">
+      <Filter>classes\forces\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\springs\ParticleBuoyancy.h">
+      <Filter>classes\forces\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\springs\ParticleSpring.h">
+      <Filter>classes\forces\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\springs\SpringForceGenerator.h">
+      <Filter>classes\forces\springs</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\particles\WindFieldForceGenerator.h">
+      <Filter>classes\forces\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\particles\ParticleForceGenerator.h">
+      <Filter>classes\forces\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\particles\GravityForceGenerator.h">
+      <Filter>classes\forces\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\particles\ExplosionForceGenerator.h">
+      <Filter>classes\forces\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\particles\DragForceGenerator.h">
+      <Filter>classes\forces\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\particles\BlackHoleForceGenerator.h">
+      <Filter>classes\forces\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\rigid_bodies\RigidBodyForceGenerator.h">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\rigid_bodies\WindRigidForceGenerator.h">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\rigid_bodies\TorqueRigidForceGenerator.h">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\rigid_bodies\ExplosionRigidForceGenerator.h">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
