@@ -2,12 +2,13 @@
 
 #include "../../utils/maths.h"
 
-SceneManager::SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam) {
-
-	camera = cam;
+SceneManager::SceneManager(PxPhysics* gPhys, PxScene* gSc, PxMaterial* gMat, Camera* cam) {
 
 	gPhysics = gPhys;
 	gScene = gSc;
+	gMaterial = gMat;
+
+	camera = cam;
 
 	// ------------------------------------------------------------
 
@@ -41,21 +42,33 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case '+': {
-		if (currScene != Scenes::SPRING)
+		if (currScene != Scenes::SPRING && currScene != Scenes::RIGID_SOLID)
 			return;
 
-		((SpringForceGenerator*)pForces[2])->addElasticity(0.1f);
-		if (currScene == Scenes::SPRING)
+		if (currScene == Scenes::SPRING) {
+			((SpringForceGenerator*)pForces[2])->addElasticity(0.1f);
 			((SpringForceGenerator*)pForces[3])->addElasticity(0.1f);
+		}
+		else {
+			auto newRes = gMaterial->getRestitution() + 0.01 > 1 ? 1 : gMaterial->getRestitution() + 0.01;
+			gMaterial->setRestitution(newRes);
+		}
+
 		break;
 	}
 	case '-': {
-		if (currScene != Scenes::SPRING)
+		if (currScene != Scenes::SPRING && currScene != Scenes::RIGID_SOLID)
 			return;
 
-		((SpringForceGenerator*)pForces[2])->addElasticity(-0.1f);
-		if (currScene == Scenes::SPRING)
+		if (currScene == Scenes::SPRING) {
+			((SpringForceGenerator*)pForces[2])->addElasticity(-0.1f);
 			((SpringForceGenerator*)pForces[3])->addElasticity(0.1f);
+		}
+		else {
+			auto newRes = gMaterial->getRestitution() - 0.01 < 0 ? 0 : gMaterial->getRestitution() - 0.01;
+			gMaterial->setRestitution(newRes);
+		}
+
 		break;
 	}
 	case ' ': {
@@ -71,7 +84,7 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case 'X': {
-		if (currScene != Scenes::PARTICLE_SYSTEM)
+		if (currScene != Scenes::PARTICLE_SYSTEM && currScene != Scenes::RIGID_SOLID)
 			break;
 
 		double time = (((float)rand()) / RAND_MAX) / 16;
@@ -148,6 +161,14 @@ void SceneManager::handleInput(unsigned char key)
 
 		Vector3 vel = pSys[0]->getParticles()[0]->getVelocity();
 		pSys[0]->getParticles()[0]->setVelocity(Vector3(-vel.x, vel.y, vel.z));
+		break;
+	}
+	case 'M': {
+		if (currScene != Scenes::RIGID_SOLID)
+			break;
+
+		pData = { { 0, 0, 0 }, camera->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
+		pSys[0]->generateBullet(camera->getTransform().p, pData);
 		break;
 	}
 	default:
@@ -368,7 +389,7 @@ void SceneManager::buoyancyScene() {
 	pForces.push_back(new GravityForceGenerator({ 0, -10, 0 }));
 	pForces.push_back(new ParticleBuoyancy(Vector3(0, 0, 0), 1.0f, 8.0, 40.0f));
 
-	ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 1 / 6000.0, 2, 10000, false, { 1, 0, 1, 0 } };
+	ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 1 / 300.0, 2, 10000, false, { 1, 0, 1, 0 } };
 	Particle* newP = new Particle({ 0, 35, 0 }, data, Shape::CUBE);
 
 	ParticleSystem* buoyancyPS = new ParticleSystem(fReg);
@@ -398,6 +419,8 @@ void SceneManager::bungeeScene() {
 
 void SceneManager::rigidBodyScene()
 {
+	partSysScene();
+
 	// ---------------------- FORCES -----------------------------------
 	//rbForces.push_back(new WindRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 30));
 	rbForces.push_back(new TorqueRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 40));
@@ -416,7 +439,7 @@ void SceneManager::rigidBodyScene()
 
 	// ---------------------- RIGID -----------------------------------
 
-	RigidBodySystem* defaultRBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(0, 40, 0)), 10, 0.5);
+	RigidBodySystem* defaultRBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(0, 60, 0)), 50, 0.7);
 	defaultRBS->addForceGenerator(rbForces[0]);
 	defaultRBS->addForceGenerator(rbForces[1]);
 	rbSys.push_back(defaultRBS);

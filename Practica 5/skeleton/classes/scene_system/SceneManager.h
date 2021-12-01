@@ -43,7 +43,7 @@ class SceneManager
 	enum class Scenes { DEFAULT, PARTICLE_SYSTEM, FIREWORK_SYSTEM, FORCE, FORCES, SPRING, BUOYANCY, RIGID_SOLID };
 
 public:
-	SceneManager(PxPhysics* gPhys, PxScene* gSc, Camera* cam);
+	SceneManager(PxPhysics* gPhys, PxScene* gSc, PxMaterial* gMat, Camera* cam);
 	~SceneManager();
 
 	void update(double time);
@@ -52,6 +52,7 @@ public:
 private:
 	PxPhysics* gPhysics;
 	PxScene* gScene;
+	PxMaterial* gMaterial;
 
 	Camera* camera;
 

@@ -17,7 +17,7 @@ public:
 	~RigidBodySystem() { free(); };
 
 	void update(double t);
-	void addBody(Vector3 offset = { 0, 0, 0 }, float sizeSet = 1, float lifeSet = 5,
+	void addBody(Vector3 offset = { 0, 0, 0 }, float sizeSet = 1, float lifeSet = 10,
 		bool colorR = true, Vector4 colorset = { 1, 0, 0, 1.0 });
 
 	void addForceGenerator(RigidBodyForceGenerator* fg);

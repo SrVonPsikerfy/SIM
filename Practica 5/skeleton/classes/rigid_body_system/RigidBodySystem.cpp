@@ -20,17 +20,22 @@ void RigidBodySystem::addBody(Vector3 offset, float sizeSet, float lifeSet, bool
 	PxRigidDynamic* rigid = gPhysics->createRigidDynamic(originRB);
 
 	// shape 
-	PxShape* shape = CreateShape(PxBoxGeometry(sizeSet, sizeSet, sizeSet));
+	int chance = rand() % 3;
+	PxShape* shape;
+	if (chance == 0) shape = CreateShape(PxBoxGeometry(sizeSet, sizeSet, sizeSet));
+	else if (chance == 1) shape = CreateShape(PxSphereGeometry(sizeSet));
+	else shape = CreateShape(PxCapsuleGeometry(sizeSet, sizeSet));
 	rigid->attachShape(*shape);
 
 	//Cinetica 
-	Vector3 vel = { -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)) };
-	rigid->setLinearVelocity(vel);				rigid->setLinearDamping(0.0);
-	rigid->setAngularVelocity({ 0,2,0 });		rigid->setAngularDamping(0.9);
+	Vector3 vel = { -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)),
+		-5.0f + rand() / (RAND_MAX / (10.0f)) };
+	rigid->setLinearVelocity(vel);				rigid->setLinearDamping(0.1);
+	rigid->setAngularVelocity({ 0,2,0 });		rigid->setAngularDamping(0.05);
 
 	//Dinámica 
 	//PxRigidBodyExt::updateMassAndInertia(*rigid, 1);
-	rigid->setMass(4);
+	rigid->setMass(rand() % 18 + 4);
 	rigid->setMassSpaceInertiaTensor(PxVec3(0.f, 0.f, 1.f));
 
 	gScene->addActor(*rigid);

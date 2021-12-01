@@ -54,7 +54,7 @@ void initPhysics(bool interactive)
 
 	// ------------------------------------------------------
 
-	sceneManager = new SceneManager(gPhysics, gScene, GetCamera());
+	sceneManager = new SceneManager(gPhysics, gScene, gMaterial, GetCamera());
 }
 
 // Function to configure what happens in each step of physics
