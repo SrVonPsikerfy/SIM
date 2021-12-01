@@ -1,8 +1,8 @@
 #ifndef WINDFIELDFORCEGENERATOR_H_
 #define WINDFIELDFORCEGENERATOR_H_
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "ParticleForceGenerator.h"
 #include "../SphericalForceField.h"

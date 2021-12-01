@@ -1,8 +1,8 @@
 #ifndef TORQUERIGIDFORCEGENERATOR_H_
 #define TORQUERIGIDFORCEGENERATOR_H_
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "RigidBodyForceGenerator.h"
 #include "../SphericalForceField.h"
@@ -16,7 +16,7 @@ private:
 
 public:
 	TorqueRigidForceGenerator(const Vector3& pos, const Vector3& force, double size, double time = -1)
-		: SphericalForceField(pos, { 0, 0, 1, 0 }, size), torque(force) {};
+		: SphericalForceField(pos, { 0, 1, 1, 0 }, size), torque(force) {};
 	virtual ~TorqueRigidForceGenerator() {};
 
 	virtual void updateForce(RigidBody* rb, float t);

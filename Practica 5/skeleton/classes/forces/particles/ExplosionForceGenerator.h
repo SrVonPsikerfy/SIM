@@ -1,8 +1,8 @@
 #ifndef EXPLOSIONFORCEGENERATOR_H_
 #define EXPLOSIONFORCEGENERATOR_H_
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "ParticleForceGenerator.h"
 #include "../SphericalForceField.h"

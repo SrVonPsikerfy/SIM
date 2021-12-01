@@ -1,10 +1,10 @@
 #ifndef PARTICLESPRING_H
 #define PARTICLESPRING_H
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
-#include "../springs/SpringForceGenerator.h"
+#include "SpringForceGenerator.h"
 
 class ParticleSpring : public SpringForceGenerator
 {

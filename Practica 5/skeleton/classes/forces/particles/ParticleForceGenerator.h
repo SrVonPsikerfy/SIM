@@ -1,7 +1,7 @@
 #ifndef PARTICLEFORCEGENERATOR_H
 #define PARTICLEFORCEGENERATOR_H
 
-#include "../../utils/checkML.h"
+#include "../../../utils/checkML.h"
 
 #include "../../particle_system/Particle.h"
 

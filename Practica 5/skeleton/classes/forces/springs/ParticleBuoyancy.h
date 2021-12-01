@@ -1,8 +1,8 @@
 #ifndef PARTICLEBUOYANCY_H
 #define PARTICLEBUOYANCY_H
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "../particles/ParticleForceGenerator.h"
 
@@ -18,6 +18,8 @@ private:
 
 	// Density of the liquid the object is submerged in
 	float liquidDensity;
+
+	float gFactor = 9.8;
 
 	physx::PxTransform waterCeilingPos;
 	RenderItem* waterCeiling;

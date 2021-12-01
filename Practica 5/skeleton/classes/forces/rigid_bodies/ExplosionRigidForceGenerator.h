@@ -1,8 +1,8 @@
 #ifndef EXPLOSIONRIGIDFORCEGENERATOR_H_
 #define EXPLOSIONRIGIDFORCEGENERATOR_H_
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "RigidBodyForceGenerator.h"
 #include "../SphericalForceField.h"

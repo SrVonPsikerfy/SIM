@@ -1,8 +1,8 @@
 #ifndef DRAGFORCEGENERATOR_H_
 #define DRAGFORCEGENERATOR_H_
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "ParticleForceGenerator.h"
 

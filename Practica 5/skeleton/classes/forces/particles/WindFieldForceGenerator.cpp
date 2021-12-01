@@ -1,6 +1,6 @@
 #include "WindFieldForceGenerator.h"
 
-#include "../../utils/maths.h"
+#include "../../../utils/maths.h"
 #include <iostream>
 
 void WindFieldForceGenerator::updateForce(Particle* particle, float t) {

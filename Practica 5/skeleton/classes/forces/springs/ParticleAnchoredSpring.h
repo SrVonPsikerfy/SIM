@@ -1,8 +1,8 @@
 #ifndef PARTICLEANCHOREDSPRING_H
 #define PARTICLEANCHOREDSPRING_H
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "../springs/SpringForceGenerator.h"
 

@@ -1,8 +1,8 @@
 #ifndef BLACKHOLEFORCEGENERATOR_H_
 #define BLACKHOLEFORCEGENERATOR_H_
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "ParticleForceGenerator.h"
 #include "../SphericalForceField.h"

@@ -26,7 +26,7 @@ void RigidBodySystem::addBody(Vector3 offset, float sizeSet, float lifeSet, bool
 	//Cinetica 
 	Vector3 vel = { -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)) };
 	rigid->setLinearVelocity(vel);				rigid->setLinearDamping(0.0);
-	rigid->setAngularVelocity({ 0,2,0 });		rigid->setAngularDamping(0.05);
+	rigid->setAngularVelocity({ 0,2,0 });		rigid->setAngularDamping(0.9);
 
 	//Dinámica 
 	//PxRigidBodyExt::updateMassAndInertia(*rigid, 1);

@@ -1,8 +1,8 @@
 #ifndef GRAVITYFORCEGENERATOR_H_
 #define GRAVITYFORCEGENERATOR_H_
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "ParticleForceGenerator.h"
 

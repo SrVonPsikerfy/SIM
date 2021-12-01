@@ -1,10 +1,10 @@
 #ifndef PARTICLEBUNGEE_H
 #define PARTICLEBUNGEE_H
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
-#include "../springs/SpringForceGenerator.h"
+#include "SpringForceGenerator.h"
 
 class ParticleBungee : public SpringForceGenerator
 {

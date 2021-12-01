@@ -59,7 +59,7 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case ' ': {
-		if (currScene != Scenes::SPRING&& currScene != Scenes::RIGID_SOLID) {
+		if (currScene != Scenes::SPRING && currScene != Scenes::RIGID_SOLID) {
 			//offset iniSpeed acceleration damp invmass size deathTime prog color
 			pData = { { 0, 0, 0 }, camera->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
 			pSys[0]->generateBullet(camera->getTransform().p, pData);
@@ -67,7 +67,7 @@ void SceneManager::handleInput(unsigned char key)
 		else if (currScene == Scenes::SPRING)
 			((ExplosionForceGenerator*)pForces[1])->activateExplosion();
 		else
-			((ExplosionRigidForceGenerator*)rbForces[0])->activateExplosion();
+			((ExplosionRigidForceGenerator*)rbForces[rbForces.size() - 1])->activateExplosion();
 		break;
 	}
 	case 'X': {
@@ -156,8 +156,6 @@ void SceneManager::handleInput(unsigned char key)
 }
 
 void SceneManager::update(double time) {
-	fReg->updateForces(time);
-
 	for (ParticleForceGenerator* fg : pForces)
 		if (fg->isActive())
 			fg->update(time);
@@ -165,6 +163,8 @@ void SceneManager::update(double time) {
 	for (RigidBodyForceGenerator* fg : rbForces)
 		if (fg->isActive())
 			fg->update(time);
+
+	fReg->updateForces(time);
 
 	for (ParticleSystem* ps : pSys)
 		ps->update(time);
@@ -400,9 +400,9 @@ void SceneManager::rigidBodyScene()
 {
 	// ---------------------- FORCES -----------------------------------
 	//rbForces.push_back(new WindRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 30));
-	//rbForces.push_back(new TorqueRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 30));
+	rbForces.push_back(new TorqueRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 40));
 	rbForces.push_back(new ExplosionRigidForceGenerator({ 0, 0, 0 }, 1000, 30, 0.5));
-	rbForces[0]->setActive(false);
+	rbForces[1]->setActive(false);
 
 	// ---------------------- STATIC -----------------------------------
 	StaticBody* floor = new StaticBody;
@@ -416,7 +416,8 @@ void SceneManager::rigidBodyScene()
 
 	// ---------------------- RIGID -----------------------------------
 
-	RigidBodySystem* defaultRBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(0, 40, 0)), 10, 3);
+	RigidBodySystem* defaultRBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(0, 40, 0)), 10, 0.5);
 	defaultRBS->addForceGenerator(rbForces[0]);
+	defaultRBS->addForceGenerator(rbForces[1]);
 	rbSys.push_back(defaultRBS);
 }

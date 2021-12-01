@@ -1,7 +1,7 @@
 #ifndef RIGIDBODYFORCEGENERATOR_H
 #define RIGIDBODYFORCEGENERATOR_H
 
-#include "../../utils/checkML.h"
+#include "../../../utils/checkML.h"
 
 #include "../../rigid_body_system/RigidBody.h"
 

@@ -1,8 +1,8 @@
 #ifndef SPRINGFORCEGENERATOR_H
 #define SPRINGFORCEGENERATOR_H
 
-#include "../../utils/checkML.h"
-#include "../../utils/core.hpp"
+#include "../../../utils/checkML.h"
+#include "../../../utils/core.hpp"
 
 #include "../particles/ParticleForceGenerator.h"
 

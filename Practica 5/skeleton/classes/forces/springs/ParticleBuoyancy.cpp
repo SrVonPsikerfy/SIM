@@ -6,6 +6,8 @@ ParticleBuoyancy::ParticleBuoyancy(Vector3 pos, float _maxDepth, float _volume, 
 	waterCeiling = new RenderItem(CreateShape(physx::PxBoxGeometry(30, 0.01, 30)), &waterCeilingPos, { 0, 0, 1, 1 });
 }
 
+
+
 void ParticleBuoyancy::updateForce(Particle* p, float t) {
 	float depth = p->getPos().y;
 	Vector3 f(0.0f, 0.0f, 0.0f);
@@ -16,12 +18,12 @@ void ParticleBuoyancy::updateForce(Particle* p, float t) {
 	}
 	if (depth < waterHeight - maxDepth) {
 		p->setColor({ 1, 0, 1, 1 });
-		f.y = liquidDensity * volume;
+		f.y = liquidDensity * volume * gFactor;
 	}
 	else {
 		float depthExt = waterHeight + maxDepth;
 		float volFactor = (depthExt - depth) / (2 * maxDepth);
-		f.y = liquidDensity * volume * volFactor;
+		f.y = liquidDensity * volume * volFactor * gFactor;
 		p->setColor({ 0.5, 0, 1, 1 });
 	}
 
