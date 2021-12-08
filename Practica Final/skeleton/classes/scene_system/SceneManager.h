@@ -87,5 +87,6 @@ private:
 	void rigidBodyScene();
 
 	void createSkybox();
+	void createPC();
 };
 #endif

@@ -499,3 +499,7 @@ void SceneManager::createSkybox()
 	wall->rItem = new RenderItem(wShape, wall->staticData, { 0, 0, 0.5, 1 });
 	stBodies.push_back(wall);
 }
+
+void SceneManager::createPC()
+{
+}
