@@ -71,6 +71,9 @@
     <ClCompile Include="classes\forces\rigid_bodies\ExplosionRigidForceGenerator.cpp">
       <Filter>classes\forces\rigid_bodies</Filter>
     </ClCompile>
+    <ClCompile Include="classes\forces\rigid_bodies\DownRigidForceGenerator.cpp">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="render">
@@ -196,6 +199,9 @@
       <Filter>classes\forces\rigid_bodies</Filter>
     </ClInclude>
     <ClInclude Include="classes\forces\rigid_bodies\ExplosionRigidForceGenerator.h">
+      <Filter>classes\forces\rigid_bodies</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\forces\rigid_bodies\DownRigidForceGenerator.h">
       <Filter>classes\forces\rigid_bodies</Filter>
     </ClInclude>
   </ItemGroup>

@@ -26,6 +26,7 @@
 #include "../forces/rigid_bodies/WindRigidForceGenerator.h"
 #include "../forces/rigid_bodies/ExplosionRigidForceGenerator.h"
 #include "../forces/rigid_bodies/TorqueRigidForceGenerator.h"
+#include "../forces/rigid_bodies/DownRigidForceGenerator.h"
 
 using namespace std;
 using namespace physx;
@@ -87,6 +88,11 @@ private:
 	void rigidBodyScene();
 
 	void createSkybox();
+	void createVolcano();
+	void createEruption();
+	void createRiver();
+	void createTree();
+	void createBananas();
 	void createPC();
 };
 #endif

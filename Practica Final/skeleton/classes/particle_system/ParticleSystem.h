@@ -13,7 +13,7 @@
 
 #include "../forces/particles/ParticleForceGenerator.h"
 
-enum class SpawnType { NONE, FOUNTAIN };
+enum class SpawnType { NONE, FOUNTAIN, ERUPTION, RIVER };
 
 class ParticleSystem {
 public:
@@ -27,7 +27,7 @@ public:
 	void reset();
 
 	void generateBullet(Vector3 pos, ParticleData data);
-	void spawnFountain(double spawn);
+	void spawn(double spawn, SpawnType type);
 	void spawnOnSphere(Vector3 pos, double radius, int num);
 
 	void addForceGenerator(ParticleForceGenerator* fg);
@@ -39,6 +39,8 @@ protected:
 
 	void spawnParticle(double t);
 	void generateFountainParticle();
+	void generateEruptionParticle();
+	void generateRiverParticle();
 
 	void addForceLinks();
 

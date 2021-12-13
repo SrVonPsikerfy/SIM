@@ -263,6 +263,7 @@
     <ClCompile Include="classes\forces\particles\ExplosionForceGenerator.cpp" />
     <ClCompile Include="classes\forces\particles\GravityForceGenerator.cpp" />
     <ClCompile Include="classes\forces\particles\WindFieldForceGenerator.cpp" />
+    <ClCompile Include="classes\forces\rigid_bodies\DownRigidForceGenerator.cpp" />
     <ClCompile Include="classes\forces\rigid_bodies\TorqueRigidForceGenerator.cpp" />
     <ClCompile Include="classes\forces\rigid_bodies\ExplosionRigidForceGenerator.cpp" />
     <ClCompile Include="classes\forces\rigid_bodies\WindRigidForceGenerator.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="classes\forces\particles\GravityForceGenerator.h" />
     <ClInclude Include="classes\forces\particles\ParticleForceGenerator.h" />
     <ClInclude Include="classes\forces\particles\WindFieldForceGenerator.h" />
+    <ClInclude Include="classes\forces\rigid_bodies\DownRigidForceGenerator.h" />
     <ClInclude Include="classes\forces\rigid_bodies\TorqueRigidForceGenerator.h" />
     <ClInclude Include="classes\forces\rigid_bodies\ExplosionRigidForceGenerator.h" />
     <ClInclude Include="classes\forces\rigid_bodies\RigidBodyForceGenerator.h" />

@@ -39,7 +39,7 @@ void initPhysics(bool interactive)
 
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
 
-	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.8f);
 
 	// ------------------------------------------------------
 
@@ -77,6 +77,11 @@ void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
 
+	if (sceneManager) {
+		delete sceneManager;
+		sceneManager = NULL;
+	}
+
 	gScene->release();
 	gPhysics->release();
 	gDispatcher->release();
@@ -86,11 +91,6 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 
 	gFoundation->release();
-
-	if (sceneManager) {
-		delete sceneManager;
-		sceneManager = NULL;
-	}
 }
 
 // Function called when a key is pressed

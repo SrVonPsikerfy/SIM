@@ -18,4 +18,17 @@ public:
 
 	virtual void updateForce(Particle* particle, float t);
 };
+
+class RigidBodyAnchoredSpring : public SpringRBForceGenerator
+{
+private:
+	// Position of the other end of the spring 
+	Vector3 anchor;
+
+public:
+	RigidBodyAnchoredSpring(Vector3 anch, float kFactor, float rLength)
+		: SpringRBForceGenerator(kFactor, rLength), anchor(anch) {};
+
+	virtual void updateForce(RigidBody* rb, float t);
+};
 #endif

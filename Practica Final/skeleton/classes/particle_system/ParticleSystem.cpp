@@ -33,8 +33,8 @@ void ParticleSystem::generateBullet(Vector3 pos, ParticleData data) {
 	addForceLinks();
 }
 
-void ParticleSystem::spawnFountain(double spawn) {
-	spType = SpawnType::FOUNTAIN;
+void ParticleSystem::spawn(double spawn,SpawnType type) {
+	spType = type;
 	spawnTime = spawn;
 }
 
@@ -79,6 +79,12 @@ void ParticleSystem::spawnParticle(double t) {
 		case SpawnType::FOUNTAIN:
 			generateFountainParticle();
 			break;
+		case SpawnType::ERUPTION:
+			generateEruptionParticle();
+			break;
+		case SpawnType::RIVER:
+			generateRiverParticle();
+			break;
 		case SpawnType::NONE:
 			nextSpawn = 0;
 			break;
@@ -102,6 +108,44 @@ void ParticleSystem::generateFountainParticle() {
 	addForceLinks();
 
 	spawnTime = ((float)rand() / RAND_MAX) / 16;
+	nextSpawn = 0;
+}
+
+void ParticleSystem::generateEruptionParticle()
+{
+	ParticleData pData;
+	int vel = 10;
+	float x = (-2 + (rand() % 7)), y = 2 + (rand() % 8), z = (-2 + (rand() % 7)), red = (((float)rand()) / RAND_MAX);
+
+	pData.offset = { 0, 0, 0 }; pData.initialSpeed = { vel * x, vel * y, vel * z };
+	pData.acceleration = { 0, 0, 0 };
+
+	pData.damp = 1;	pData.inv_mass = 1;
+	pData.size = 2;	pData.lifeTime = rand() % 2 + 2;
+	pData.progThroughTime = true; pData.color = { red, 0, 0, 1 };
+
+	particles.push_back(new Particle(posSystem, pData));
+	addForceLinks();
+
+	spawnTime = ((float)rand() / RAND_MAX) / 16;
+	nextSpawn = 0;
+}
+
+void ParticleSystem::generateRiverParticle()
+{
+	ParticleData pData;
+	float x = maths::random<double>(-15, 15), z = maths::random<double>(-130, 130);
+
+	pData.offset = { x, 0, z }; pData.initialSpeed = { 0, 0, 0 };
+	pData.acceleration = { 0, 0, 0 };
+
+	pData.damp = 1;	pData.inv_mass = 1/500.0;
+	pData.size = 1;	pData.lifeTime = 6;
+	pData.progThroughTime = false; pData.color = { 1, 1, 1, 1 };
+
+	particles.push_back(new Particle(posSystem, pData, Shape::CUBE));
+	addForceLinks();
+	
 	nextSpawn = 0;
 }
 

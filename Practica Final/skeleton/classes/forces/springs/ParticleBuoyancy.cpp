@@ -2,11 +2,9 @@
 
 ParticleBuoyancy::ParticleBuoyancy(Vector3 pos, float _maxDepth, float _volume, float _waterHeight, float _liquidDensity)
 	: maxDepth(_maxDepth), volume(_volume), waterHeight(_waterHeight), liquidDensity(_liquidDensity) {
-	waterCeilingPos = physx::PxTransform(pos.x, waterHeight, pos.y);
-	waterCeiling = new RenderItem(CreateShape(physx::PxBoxGeometry(30, 0.01, 30)), &waterCeilingPos, { 0, 0, 1, 1 });
+	waterCeilingPos = physx::PxTransform(pos.x, waterHeight, pos.z);
+	waterCeiling = new RenderItem(CreateShape(physx::PxBoxGeometry(20, 0.01, 150)), &waterCeilingPos, { 0, 1, 1, 1 });
 }
-
-
 
 void ParticleBuoyancy::updateForce(Particle* p, float t) {
 	float depth = p->getPos().y;

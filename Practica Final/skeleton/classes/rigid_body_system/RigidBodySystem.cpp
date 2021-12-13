@@ -8,7 +8,7 @@ void RigidBodySystem::update(double t)
 		spawnRigidBody(t);
 }
 
-void RigidBodySystem::addBody(Vector3 offset, float sizeSet, float lifeSet, bool colorR, Vector4 colorSet)
+void RigidBodySystem::addBody(Vector3 offset, float massSett, float sizeSet, float lifeSet, bool colorR, Vector4 colorSet, RBType type)
 {
 	if (rBodies.size() == maxParticles)
 		return;
@@ -20,10 +20,9 @@ void RigidBodySystem::addBody(Vector3 offset, float sizeSet, float lifeSet, bool
 	PxRigidDynamic* rigid = gPhysics->createRigidDynamic(originRB);
 
 	// shape 
-	int chance = rand() % 3;
 	PxShape* shape;
-	if (chance == 0) shape = CreateShape(PxBoxGeometry(sizeSet, sizeSet, sizeSet));
-	else if (chance == 1) shape = CreateShape(PxSphereGeometry(sizeSet));
+	if (type == RBType::CUBE) shape = CreateShape(PxBoxGeometry(sizeSet, sizeSet, sizeSet));
+	else if (type == RBType::SPHERE) shape = CreateShape(PxSphereGeometry(sizeSet));
 	else shape = CreateShape(PxCapsuleGeometry(sizeSet, sizeSet));
 	rigid->attachShape(*shape);
 
@@ -35,7 +34,7 @@ void RigidBodySystem::addBody(Vector3 offset, float sizeSet, float lifeSet, bool
 
 	//Dinámica 
 	//PxRigidBodyExt::updateMassAndInertia(*rigid, 1);
-	rigid->setMass(rand() % 18 + 4);
+	rigid->setMass(massSett);
 	rigid->setMassSpaceInertiaTensor(PxVec3(0.f, 0.f, 1.f));
 
 	gScene->addActor(*rigid);
@@ -75,7 +74,7 @@ void RigidBodySystem::integrate(double t)
 
 		rBodies[i]->lifetime += t;
 
-		if (rBodies[i]->lifetime > rBodies[i]->deathTime)
+		if (rBodies[i]->deathTime != -1 && rBodies[i]->lifetime > rBodies[i]->deathTime)
 			releaseRigidBody(i);
 	}
 }
@@ -84,8 +83,28 @@ void RigidBodySystem::spawnRigidBody(double t)
 {
 	nextSpawn += t;
 	if (nextSpawn > spawnTime) {
-		addBody();
+		spawn();
 		nextSpawn = 0;
+	}
+}
+
+void RigidBodySystem::spawn(double t) {
+	nextSpawn += t;
+	if (nextSpawn >= spawnTime) {
+		switch (spType) {
+		case SpawnType::FOUNTAIN:
+			generateFountainParticle();
+			break;
+		case SpawnType::ERUPTION:
+			generateEruptionParticle();
+			break;
+		case SpawnType::RIVER:
+			generateRiverParticle();
+			break;
+		case SpawnType::NONE:
+			nextSpawn = 0;
+			break;
+		}
 	}
 }
 

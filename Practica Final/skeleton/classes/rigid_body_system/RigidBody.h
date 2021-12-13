@@ -6,6 +6,8 @@
 using namespace physx;
 using namespace std;
 
+enum class RBType { SPHERE, CUBE, CAPSULE };
+
 struct RigidBody {
 	PxRigidDynamic* rigidData;
 
