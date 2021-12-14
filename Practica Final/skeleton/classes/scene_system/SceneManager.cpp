@@ -82,7 +82,7 @@ void SceneManager::handleInput(unsigned char key)
 	case 'R': {
 		for (auto pS : pSys)
 			pS->reset();
-		for (int i = 3; i < rbSys.size(); ++i)
+		for (int i = 3; i < rbSys.size() - 1; ++i)
 			rbSys[i]->reset();
 		break;
 	}
@@ -168,25 +168,18 @@ void SceneManager::changeScene(Scenes newScene)
 		finalScene();
 		break;
 	case SceneManager::Scenes::PARTICLE_SYSTEM:
-		partSysScene();
 		break;
 	case SceneManager::Scenes::FIREWORK_SYSTEM:
-		fireSysScene();
 		break;
 	case SceneManager::Scenes::FORCE:
-		windScene();
 		break;
 	case SceneManager::Scenes::FORCES:
-		forcesScene();
 		break;
 	case SceneManager::Scenes::SPRING:
-		springScene();
 		break;
 	case SceneManager::Scenes::BUOYANCY:
-		buoyancyScene();
 		break;
 	case SceneManager::Scenes::RIGID_SOLID:
-		rigidBodyScene();
 		break;
 	default:
 		break;
