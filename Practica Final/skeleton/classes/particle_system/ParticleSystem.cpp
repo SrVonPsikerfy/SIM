@@ -134,13 +134,13 @@ void ParticleSystem::generateEruptionParticle()
 void ParticleSystem::generateRiverParticle()
 {
 	ParticleData pData;
-	float x = maths::random<double>(-15, 15), z = maths::random<double>(-130, 130);
+	float x = maths::random<double>(-15, 15), z = maths::random<double>(-90, 90);
 
 	pData.offset = { x, 0, z }; pData.initialSpeed = { 0, 0, 0 };
 	pData.acceleration = { 0, 0, 0 };
 
-	pData.damp = 1;	pData.inv_mass = 1/500.0;
-	pData.size = 1;	pData.lifeTime = 6;
+	pData.damp = 1;	pData.inv_mass = 1 / (maths::random<double>(400, 600));
+	pData.size = 1;	pData.lifeTime = maths::random<double>(6, 10);
 	pData.progThroughTime = false; pData.color = { 1, 1, 1, 1 };
 
 	particles.push_back(new Particle(posSystem, pData, Shape::CUBE));

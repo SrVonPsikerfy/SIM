@@ -60,11 +60,11 @@ namespace Snippets
 		PxVec3 viewY = mDir.cross(PxVec3(0, 1, 0)).getNormalized();
 		switch (toupper(key))
 		{
-		case 'W':	mEye += mDir * 2.0f * speed;		break;
+		/*case 'W':	mEye += mDir * 2.0f * speed;		break;
 		case 'S':	mEye -= mDir * 2.0f * speed;		break;
 		case 'A':	mEye -= viewY * 2.0f * speed;		break;
-		case 'D':	mEye += viewY * 2.0f * speed;		break;
-		default:							return false;
+		case 'D':	mEye += viewY * 2.0f * speed;		break;*/
+		default:	return false;
 		}
 		return true;
 	}
@@ -113,5 +113,17 @@ namespace Snippets
 	PxVec3 Camera::getDir() const
 	{
 		return mDir;
+	}
+	void Camera::setEye(physx::PxVec3 p)
+	{
+		mEye = p;
+	}
+	void Camera::setDir(physx::PxVec3 p)
+	{
+		mDir = p;
+	}
+	PxVec3 Camera::getLateralDirection()
+	{
+		return mDir.cross(PxVec3(0, 1, 0)).getNormalized();
 	}
 }

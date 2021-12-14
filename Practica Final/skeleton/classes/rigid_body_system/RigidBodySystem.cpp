@@ -1,5 +1,7 @@
 #include "RigidBodySystem.h"
 
+#include "../../utils/maths.h"
+
 void RigidBodySystem::update(double t)
 {
 	integrate(t);
@@ -8,10 +10,11 @@ void RigidBodySystem::update(double t)
 		spawnRigidBody(t);
 }
 
-void RigidBodySystem::addBody(Vector3 offset, float massSett, float sizeSet, float lifeSet, bool colorR, Vector4 colorSet, RBType type)
+RigidBody* RigidBodySystem::addBody(Vector3 offset, float massSett, Vector3 velSet, Vector3 rotVelSet, 
+	float dampingSet, float dampAngSet, Vector3 tensorSet, float sizeSet, float lifeSet, Vector4 colorSet, RBType type)
 {
 	if (rBodies.size() == maxParticles)
-		return;
+		return nullptr;
 
 	RigidBody* rb = new RigidBody;
 
@@ -27,20 +30,15 @@ void RigidBodySystem::addBody(Vector3 offset, float massSett, float sizeSet, flo
 	rigid->attachShape(*shape);
 
 	//Cinetica 
-	Vector3 vel = { -5.0f + rand() / (RAND_MAX / (10.0f)), -5.0f + rand() / (RAND_MAX / (10.0f)),
-		-5.0f + rand() / (RAND_MAX / (10.0f)) };
-	rigid->setLinearVelocity(vel);				rigid->setLinearDamping(0.1);
-	rigid->setAngularVelocity({ 0,2,0 });		rigid->setAngularDamping(0.05);
+	rigid->setLinearVelocity(velSet);				rigid->setLinearDamping(dampingSet);
+	rigid->setAngularVelocity(rotVelSet);			rigid->setAngularDamping(dampAngSet);
 
 	//Dinámica 
 	//PxRigidBodyExt::updateMassAndInertia(*rigid, 1);
 	rigid->setMass(massSett);
-	rigid->setMassSpaceInertiaTensor(PxVec3(0.f, 0.f, 1.f));
+	rigid->setMassSpaceInertiaTensor(tensorSet);
 
 	gScene->addActor(*rigid);
-
-	// rColor
-	if (colorR) colorSet = { float(rand() % 10 / 10.0f), float(rand() % 10 / 10.0f), float(rand() % 10 / 10.0f), 1.0 };
 
 	// complete body struct 
 	rb->rigidData = rigid;
@@ -52,6 +50,25 @@ void RigidBodySystem::addBody(Vector3 offset, float massSett, float sizeSet, flo
 	rBodies.push_back(rb);
 
 	addForceLinks();
+
+	return rb;
+}
+
+void RigidBodySystem::reset() {
+	for (int i = 0; i < rBodies.size(); i++) {
+		releaseRigidBody(i);
+		--i;
+	}
+	rBodies.clear();
+
+	spType = SpawnRBType::NONE;
+	spawnTime = -1;
+}
+
+void RigidBodySystem::setSpawn(double spawn, SpawnRBType type)
+{
+	spType = type;
+	spawnTime = spawn;
 }
 
 void RigidBodySystem::addForceGenerator(RigidBodyForceGenerator* fg) {
@@ -83,7 +100,7 @@ void RigidBodySystem::spawnRigidBody(double t)
 {
 	nextSpawn += t;
 	if (nextSpawn > spawnTime) {
-		spawn();
+		spawn(t);
 		nextSpawn = 0;
 	}
 }
@@ -92,17 +109,20 @@ void RigidBodySystem::spawn(double t) {
 	nextSpawn += t;
 	if (nextSpawn >= spawnTime) {
 		switch (spType) {
-		case SpawnType::FOUNTAIN:
-			generateFountainParticle();
+		case SpawnRBType::SNOW: {
+			Vector3 pos = { maths::random<float>(-10, 10), -1, maths::random<float>(-10, 10) };
+			double size = maths::random<double>(1, 3);
+			double mass = maths::random<double>(5, 10);
+			Vector3 vel = { 0, 0, 0 }, rotVel = { 0, 0, 0 };
+			float damp = 0.8, dampAng = 0.01, life = maths::random<double>(3, 5);
+			Vector3 tensor = { 0, 1, 1 };
+			Vector4 color = { 1, 1, 1, 1.0 }; RBType type = RBType::CUBE;
+
+			addBody(pos, mass, vel, rotVel, damp, dampAng, tensor, size, life, color, type);
 			break;
-		case SpawnType::ERUPTION:
-			generateEruptionParticle();
-			break;
-		case SpawnType::RIVER:
-			generateRiverParticle();
-			break;
-		case SpawnType::NONE:
-			nextSpawn = 0;
+		}
+		case SpawnRBType::NONE:
+			addBody();
 			break;
 		}
 	}

@@ -6,7 +6,7 @@
 
 #include "Particle.h"
 
-enum class FireworkLoadType { NONE, FLOWER, SPHERE, RANDOM };
+enum class FireworkLoadType { NONE, FLOWER, SPHERE, RANDOM, RAIN, DROPLET };
 
 class Firework : public Particle
 {

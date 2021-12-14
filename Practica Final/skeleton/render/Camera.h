@@ -45,7 +45,12 @@ namespace Snippets
 		void				handleAnalogMove(float x, float y);
 
 		physx::PxVec3		getEye()	const;
-		physx::PxVec3		getDir()	const;
+		physx::PxVec3		getDir()	const; 
+		physx::PxVec3		getLateralDirection();
+
+		void		setEye(physx::PxVec3 p);
+		void		setDir(physx::PxVec3 p);
+
 		physx::PxTransform	getTransform() const;
 	private:
 		physx::PxVec3	mEye;

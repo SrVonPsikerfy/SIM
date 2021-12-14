@@ -98,5 +98,40 @@ void FireworkSystem::ignite(Vector3 particlePos, FireworkLoadType loadType, int 
 		}
 		break;
 	}
+	case FireworkLoadType::RAIN: {
+		for (int i = 0; i < payload; i++) {
+			int vel = rand() % 3 + 3;
+			pData.offset = { 0, 0, 0 }; pData.acceleration = { 0, 0, 0 };
+
+			float v1 = rand() % 5 + 1, v3 = rand() % 5 + 1;
+			pData.initialSpeed = { v1 * vel, -20, v3 * vel };
+
+			pData.size = 1.2; pData.inv_mass = 1; pData.damp = 1; pData.lifeTime = 3.5;
+
+			pData.progThroughTime = true;
+			pData.color = { 0, 0.2, 0.4, 1 };
+
+			particles.push_back(new Firework(FireworkLoadType::DROPLET, 10, life--, particlePos, pData));
+			addForceLinks();
+		}
+		break;
+	}
+	case FireworkLoadType::DROPLET: {
+		for (int i = 0; i < payload; i++) {
+			pData.offset = { 0, 0, 0 }; pData.acceleration = { 0, 0, 0 };
+
+			float v1 = rand() % 5 + 3, v3 = rand() % 5 + 3;
+			pData.initialSpeed = { v1, 20, v3 };
+
+			pData.size = 0.8; pData.inv_mass = 1; pData.damp = 0.8; pData.lifeTime = 1;
+
+			pData.progThroughTime = true;
+			pData.color = { 0, 0.2, 0.25, 1 };
+
+			particles.push_back(new Particle(particlePos, pData));
+			addForceLinks();
+		}
+		break;
+	}
 	}
 }

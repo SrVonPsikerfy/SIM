@@ -13,76 +13,49 @@ SceneManager::SceneManager(PxPhysics* gPhys, PxScene* gSc, PxMaterial* gMat, Cam
 
 	fReg = new ForceRegistry();
 
-	axisPos = physx::PxTransform(0, 0, 0);
-	axis = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &axisPos, { 1, 0, 0, 1 });
+	rainSpawn = 1; spawnT = 0;
 
 	currScene = Scenes::DEFAULT;
-	//defaultScene();
-	createSkybox();
-	createVolcano();
-	createEruption();
-	createRiver();
-	createTree();
-	createBananas();
-	createPC();
+	finalScene();
 }
 
 SceneManager::~SceneManager() {
 	free();
-
-	if (axis != nullptr)
-		axis->release();
 }
 
 void SceneManager::handleInput(unsigned char key)
 {
 	ParticleData pData;
+	float factor = 40;
 
 	switch (toupper(key)) {
-	case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': {
+	case '1': {
 		changeScene((Scenes)((int)key - '0' - 1));
 		break;
 	}
-	case '+': {
-		if (currScene != Scenes::SPRING && currScene != Scenes::RIGID_SOLID)
-			return;
-
-		if (currScene == Scenes::SPRING) {
-			((SpringForceGenerator*)pForces[2])->addElasticity(0.1f);
-			((SpringForceGenerator*)pForces[3])->addElasticity(0.1f);
-		}
-		else {
-			auto newRes = gMaterial->getRestitution() + 0.01 > 1 ? 1 : gMaterial->getRestitution() + 0.01;
-			gMaterial->setRestitution(newRes);
-		}
-
+	case 'W': {
+		Vector3 force = { camera->getDir().x * factor, 0, camera->getDir().z * factor };
+		pc->rigidData->setLinearVelocity(force);
 		break;
 	}
-	case '-': {
-		if (currScene != Scenes::SPRING && currScene != Scenes::RIGID_SOLID)
-			return;
-
-		if (currScene == Scenes::SPRING) {
-			((SpringForceGenerator*)pForces[2])->addElasticity(-0.1f);
-			((SpringForceGenerator*)pForces[3])->addElasticity(0.1f);
-		}
-		else {
-			auto newRes = gMaterial->getRestitution() - 0.01 < 0 ? 0 : gMaterial->getRestitution() - 0.01;
-			gMaterial->setRestitution(newRes);
-		}
-
+	case 'S': {
+		Vector3 force = { -camera->getDir().x * factor, 0, -camera->getDir().z * factor };
+		pc->rigidData->setLinearVelocity(force);
+		break;
+	}
+	case 'A': {
+		Vector3 force = { -camera->getLateralDirection().x * factor, 0, -camera->getLateralDirection().z * factor };
+		pc->rigidData->setLinearVelocity(force);
+		break;
+	}
+	case 'D': {
+		Vector3 force = { camera->getLateralDirection().x * factor, 0, camera->getLateralDirection().z * factor };
+		pc->rigidData->setLinearVelocity(force);
 		break;
 	}
 	case ' ': {
-		if (currScene != Scenes::SPRING && currScene != Scenes::RIGID_SOLID) {
-			//offset iniSpeed acceleration damp invmass size deathTime prog color
-			pData = { { 0, 0, 0 }, camera->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
-			pSys[0]->generateBullet(camera->getTransform().p, pData);
-		}
-		else if (currScene == Scenes::SPRING)
-			((ExplosionForceGenerator*)pForces[1])->activateExplosion();
-		else
-			((ExplosionRigidForceGenerator*)rbForces[rbForces.size() - 1])->activateExplosion();
+		Vector3 force = { 0, factor, 0 };
+		pc->rigidData->setLinearVelocity(force);
 		break;
 	}
 	case 'X': {
@@ -90,40 +63,27 @@ void SceneManager::handleInput(unsigned char key)
 		pSys[0]->spawn(time, SpawnType::ERUPTION);
 		break;
 	}
-	case 'F': {
-		if (currScene != Scenes::FIREWORK_SYSTEM)
-			break;
-
-		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, 0, 0 }, 0.999, 1, 2, 3, true, { 1, 1, 1, 1 } };
-		((FireworkSystem*)pSys[1])->generateFirework(FireworkLoadType::FLOWER, 360, 1, pData);
-		break;
-	}
 	case 'P': {
-		if (currScene != Scenes::FIREWORK_SYSTEM)
-			break;
-
-		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, 0, 0 }, 0.999, 1, 2, 3, true, { 0, 1, 0, 1 } };
-		((FireworkSystem*)pSys[1])->generateFirework(FireworkLoadType::SPHERE, 40, 1, pData);
-		break;
-	}
-	case 'O': {
-		if (currScene != Scenes::FIREWORK_SYSTEM)
-			break;
-
-		pData = { { 0, 0, 0 }, { 0, 30, 0 } , { 0, 0, 0 }, 0.999, 1, 2, 3, true, { 0, 0, 1, 1 } };
-		((FireworkSystem*)pSys[1])->generateFirework(FireworkLoadType::RANDOM, 30, 2, pData);
+		if (spawnT > rainSpawn) {
+			pData = { { 0, 10, 0 }, { 0, -1, 0 }, { 0, 0, 0 }, 0.7, 1, 1, 0.5, true, { 0, 0.2, 1, 1 } };
+			((FireworkSystem*)pSys[pSys.size() - 1])->generateFirework(FireworkLoadType::RAIN, 20, 2, pData);
+			pData.offset = { 70, 10, 70 };
+			((FireworkSystem*)pSys[pSys.size() - 1])->generateFirework(FireworkLoadType::RAIN, 20, 2, pData);
+			pData.offset = { 70, 10, -70 };
+			((FireworkSystem*)pSys[pSys.size() - 1])->generateFirework(FireworkLoadType::RAIN, 20, 2, pData);
+			pData.offset = { -70, 10, -70 };
+			((FireworkSystem*)pSys[pSys.size() - 1])->generateFirework(FireworkLoadType::RAIN, 20, 2, pData);
+			pData.offset = { -70, 10, 70 };
+			((FireworkSystem*)pSys[pSys.size() - 1])->generateFirework(FireworkLoadType::RAIN, 20, 2, pData);
+			spawnT = 0;
+		}
 		break;
 	}
 	case 'R': {
 		for (auto pS : pSys)
 			pS->reset();
-		break;
-	}
-	case 'C': {
-		if (currScene != Scenes::FORCES)
-			break;
-
-		((WindFieldForceGenerator*)pForces[3])->switchWindType(3);
+		for (int i = 3; i < rbSys.size(); ++i)
+			rbSys[i]->reset();
 		break;
 	}
 	case 'E': {
@@ -131,35 +91,15 @@ void SceneManager::handleInput(unsigned char key)
 		break;
 	}
 	case 'G': {
-		double time = 1;
+		double time = 0.2;
 		pSys[1]->spawn(time, SpawnType::RIVER);
 		break;
 	}
-	case 'Z': {
-		if (currScene != Scenes::BUOYANCY)
-			break;
-
-		ParticleData data = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 0.7, 1 / maths::random<float>(5000.0, 7000.0), 2, 10000, false, { 1, 0, 1, 0 } };
-		Particle* newP = new Particle({ maths::random<float>(-15, 15), maths::random<float>(10, 40), maths::random<float>(-15, 15) },
-			data, Shape::CUBE);
-
-		pSys[0]->addParticle(newP);
-		break;
-	}
 	case 'H': {
-		if (currScene != Scenes::SPRING)
-			break;
-
-		Vector3 vel = pSys[0]->getParticles()[0]->getVelocity();
-		pSys[0]->getParticles()[0]->setVelocity(Vector3(-vel.x, vel.y, vel.z));
-		break;
-	}
-	case 'M': {
-		if (currScene != Scenes::RIGID_SOLID)
-			break;
-
-		pData = { { 0, 0, 0 }, camera->getDir() * 200, { 0, 0, 0 }, 0.999, 1, 3, 6, true, { 1, 1, 1, 1 } };
-		pSys[0]->generateBullet(camera->getTransform().p, pData);
+		float time = maths::random<double>(0.2, 1.5);
+		rbSys[3]->setSpawn(time, SpawnRBType::SNOW);
+		rbSys[4]->setSpawn(time, SpawnRBType::SNOW);
+		rbSys[5]->setSpawn(time, SpawnRBType::SNOW);
 		break;
 	}
 	default:
@@ -168,6 +108,11 @@ void SceneManager::handleInput(unsigned char key)
 }
 
 void SceneManager::update(double time) {
+	spawnT += time;
+
+	if (pc)
+		camera->setEye(pc->rigidData->getGlobalPose().p);
+
 	for (ParticleForceGenerator* fg : pForces)
 		if (fg->isActive())
 			fg->update(time);
@@ -187,6 +132,10 @@ void SceneManager::update(double time) {
 
 void SceneManager::free() {
 	fReg->clear();
+
+	for (size_t i = 0; i < rbForces.size(); i++)
+		delete rbForces[i];
+	rbForces.clear();
 
 	for (size_t i = 0; i < pForces.size(); i++)
 		delete pForces[i];
@@ -216,7 +165,7 @@ void SceneManager::changeScene(Scenes newScene)
 	switch (currScene)
 	{
 	case SceneManager::Scenes::DEFAULT:
-		defaultScene();
+		finalScene();
 		break;
 	case SceneManager::Scenes::PARTICLE_SYSTEM:
 		partSysScene();
@@ -414,7 +363,7 @@ void SceneManager::rigidBodyScene()
 
 	// ---------------------- FORCES -----------------------------------
 	//rbForces.push_back(new WindRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 30));
-	rbForces.push_back(new TorqueRigidForceGenerator({ 0, 0, 0 }, Vector3(300, 300, 0), 40));
+	rbForces.push_back(new TorqueRigidForceGenerator(Vector3(300, 300, 0)));
 	rbForces.push_back(new ExplosionRigidForceGenerator({ 0, 0, 0 }, 1000, 30, 0.5));
 	rbForces[1]->setActive(false);
 
@@ -436,9 +385,22 @@ void SceneManager::rigidBodyScene()
 	rbSys.push_back(defaultRBS);
 }
 
+void SceneManager::finalScene()
+{
+	createSkybox();
+	createVolcano();
+	createEruption();
+	createRiver();
+	createTree();
+	createBananas();
+	createSnow();
+	createRain();
+	createPC();
+}
+
 void SceneManager::createSkybox()
 {
-	float width = 150, depth = 150, height = 60;
+	float width = 100, depth = 100, height = 60;
 
 	// FLOOR
 	StaticBody* floor = new StaticBody;
@@ -502,7 +464,7 @@ void SceneManager::createVolcano()
 	// FLOOR
 	StaticBody* rock = new StaticBody;
 	PxShape* shape = CreateShape(PxBoxGeometry(width, 40, depth));
-	rock->staticData = gPhysics->createRigidStatic({ 140, 40, 140 });
+	rock->staticData = gPhysics->createRigidStatic({ 90, 40, 90 });
 	rock->staticData->attachShape(*shape);
 	gScene->addActor(*rock->staticData);
 	rock->rItem = new RenderItem(shape, rock->staticData, { 0.5, 0.25, 0, 1 });
@@ -510,7 +472,7 @@ void SceneManager::createVolcano()
 
 	rock = new StaticBody;
 	shape = CreateShape(PxBoxGeometry(width, 25, depth));
-	rock->staticData = gPhysics->createRigidStatic({ 120, 25, 140 });
+	rock->staticData = gPhysics->createRigidStatic({ 70, 25, 90 });
 	rock->staticData->attachShape(*shape);
 	gScene->addActor(*rock->staticData);
 	rock->rItem = new RenderItem(shape, rock->staticData, { 0.5, 0.25, 0, 1 });
@@ -518,7 +480,7 @@ void SceneManager::createVolcano()
 
 	rock = new StaticBody;
 	shape = CreateShape(PxBoxGeometry(width, 25, depth));
-	rock->staticData = gPhysics->createRigidStatic({ 140, 25, 120 });
+	rock->staticData = gPhysics->createRigidStatic({ 90, 25, 70 });
 	rock->staticData->attachShape(*shape);
 	gScene->addActor(*rock->staticData);
 	rock->rItem = new RenderItem(shape, rock->staticData, { 0.5, 0.25, 0, 1 });
@@ -526,7 +488,7 @@ void SceneManager::createVolcano()
 
 	rock = new StaticBody;
 	shape = CreateShape(PxBoxGeometry(width, 10, depth));
-	rock->staticData = gPhysics->createRigidStatic({ 120, 10, 120 });
+	rock->staticData = gPhysics->createRigidStatic({ 70, 10, 70 });
 	rock->staticData->attachShape(*shape);
 	gScene->addActor(*rock->staticData);
 	rock->rItem = new RenderItem(shape, rock->staticData, { 0.5, 0.25, 0, 1 });
@@ -534,7 +496,7 @@ void SceneManager::createVolcano()
 
 	rock = new StaticBody;
 	shape = CreateShape(PxBoxGeometry(width, 10, depth));
-	rock->staticData = gPhysics->createRigidStatic({ 100, 10, 140 });
+	rock->staticData = gPhysics->createRigidStatic({ 50, 10, 90 });
 	rock->staticData->attachShape(*shape);
 	gScene->addActor(*rock->staticData);
 	rock->rItem = new RenderItem(shape, rock->staticData, { 0.5, 0.25, 0, 1 });
@@ -542,7 +504,7 @@ void SceneManager::createVolcano()
 
 	rock = new StaticBody;
 	shape = CreateShape(PxBoxGeometry(width, 10, depth));
-	rock->staticData = gPhysics->createRigidStatic({ 140, 10, 100 });
+	rock->staticData = gPhysics->createRigidStatic({ 90, 10, 50 });
 	rock->staticData->attachShape(*shape);
 	gScene->addActor(*rock->staticData);
 	rock->rItem = new RenderItem(shape, rock->staticData, { 0.5, 0.25, 0, 1 });
@@ -551,12 +513,12 @@ void SceneManager::createVolcano()
 
 void SceneManager::createEruption()
 {
-	ParticleSystem* eruptionPS = new ParticleSystem(fReg, { 120, 60, 120 }, -1);
+	ParticleSystem* eruptionPS = new ParticleSystem(fReg, { 90, 60, 90 }, -1);
 
 	pForces.push_back(new GravityForceGenerator({ 0, -10, 0 }));
 	eruptionPS->addForceGenerator(pForces[pForces.size() - 1]);
 
-	pForces.push_back(new WindFieldForceGenerator({ 120, 100, 120 }, Vector3(-300, -50, -300), 20));
+	pForces.push_back(new WindFieldForceGenerator({ 90, 100, 90 }, Vector3(-300, -50, -300), 20));
 	eruptionPS->addForceGenerator(pForces[pForces.size() - 1]);
 
 	pSys.push_back(eruptionPS);
@@ -564,9 +526,9 @@ void SceneManager::createEruption()
 
 void SceneManager::createRiver()
 {
-	pForces.push_back(new ParticleBuoyancy(Vector3(-130, 0, 0), 0.5f, 1.0, 2.0f));
+	pForces.push_back(new ParticleBuoyancy(Vector3(-80, 0, 0), 0.5f, 1.0, 1.0f));
 
-	ParticleSystem* buoyancyPS = new ParticleSystem(fReg, { -130, 0, 0 }, -1);
+	ParticleSystem* buoyancyPS = new ParticleSystem(fReg, { -80, 0, 0 }, -1);
 	buoyancyPS->addForceGenerator(pForces[0]);
 	buoyancyPS->addForceGenerator(pForces[pForces.size() - 1]);
 	pSys.push_back(buoyancyPS);
@@ -576,7 +538,7 @@ void SceneManager::createTree()
 {
 	StaticBody* trunk = new StaticBody;
 	PxShape* shape = CreateShape(PxBoxGeometry(3, 20, 3));
-	trunk->staticData = gPhysics->createRigidStatic({ 120, 20, -120 });
+	trunk->staticData = gPhysics->createRigidStatic({ 70, 20, -70 });
 	trunk->staticData->attachShape(*shape);
 	gScene->addActor(*trunk->staticData);
 	trunk->rItem = new RenderItem(shape, trunk->staticData, { 0.5, 0.25, 0, 1 });
@@ -584,7 +546,7 @@ void SceneManager::createTree()
 
 	StaticBody* leaves = new StaticBody;
 	shape = CreateShape(PxBoxGeometry(40, 20, 40));
-	leaves->staticData = gPhysics->createRigidStatic({ 110, 60, -110 });
+	leaves->staticData = gPhysics->createRigidStatic({ 60, 60, -60 });
 	leaves->staticData->attachShape(*shape);
 	gScene->addActor(*leaves->staticData);
 	leaves->rItem = new RenderItem(shape, leaves->staticData, { 0, 1, 0.25, 1 });
@@ -595,44 +557,76 @@ void SceneManager::createBananas()
 {
 	rbForces.push_back(new DownRigidForceGenerator(200, 0.5));
 	rbForces[rbForces.size() - 1]->setActive(false);
-	rbForces.push_back(new RigidBodyAnchoredSpring(Vector3(95, 60, -95), 1.5f, 10.0f));
-	rbForces.push_back(new RigidBodyAnchoredSpring(Vector3(145, 60, -95), 1.5f, 10.0f));
-	rbForces.push_back(new RigidBodyAnchoredSpring(Vector3(95, 60, -145), 1.5f, 10.0f));
+	rbForces.push_back(new RigidBodyAnchoredSpring(Vector3(45, 60, -45), 1.5f, 10.0f));
+	rbForces.push_back(new RigidBodyAnchoredSpring(Vector3(75, 60, -45), 1.5f, 10.0f));
+	rbForces.push_back(new RigidBodyAnchoredSpring(Vector3(45, 60, -75), 1.5f, 10.0f));
 
-	RigidBodySystem* racimoRBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(95, 20, -95)), 50, -1);
+	RigidBodySystem* racimoRBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(45, 40, -45)), 50, -1);
 	racimoRBS->addForceGenerator(rbForces[0]);
 	racimoRBS->addForceGenerator(rbForces[1]);
 	rbSys.push_back(racimoRBS);
 
-	RigidBodySystem* racimo2RBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(145, 20, -95)), 50, -1);
+	RigidBodySystem* racimo2RBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(75, 40, -45)), 50, -1);
 	racimo2RBS->addForceGenerator(rbForces[0]);
 	racimo2RBS->addForceGenerator(rbForces[2]);
 	rbSys.push_back(racimo2RBS);
 
-	RigidBodySystem* racimo3RBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(95, 20, -145)), 50, -1);
+	RigidBodySystem* racimo3RBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(45, 40, -75)), 50, -1);
 	racimo3RBS->addForceGenerator(rbForces[0]);
 	racimo3RBS->addForceGenerator(rbForces[3]);
 	rbSys.push_back(racimo3RBS);
 
-	racimoRBS->addBody({ 20, 0, 0 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::CAPSULE);
-	racimoRBS->addBody({ 0, 0, 0 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::CAPSULE);
-	racimoRBS->addBody({ 0, 0, 20 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::CAPSULE);
+	racimoRBS->addBody({ 20, 0, 0 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::CAPSULE);
+	racimoRBS->addBody({ 0, 0, 0 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::CAPSULE);
+	racimoRBS->addBody({ 0, 0, 20 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::CAPSULE);
 
-	racimo2RBS->addBody({ -20, 0, 0 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::CUBE);
-	racimo2RBS->addBody({ 0, 0, 0 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::CUBE);
-	racimo2RBS->addBody({ 0, 0, 20 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::CUBE);
+	racimo2RBS->addBody({ -20, 0, 0 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::CUBE);
+	racimo2RBS->addBody({ 0, 0, 0 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::CUBE);
+	racimo2RBS->addBody({ 0, 0, 20 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::CUBE);
 
-	racimo3RBS->addBody({ 20, 0, 0 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::SPHERE);
-	racimo3RBS->addBody({ 0, 0, 0 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::SPHERE);
-	racimo3RBS->addBody({ 0, 0, 20 }, 5, 2, -1, false, { 1, 1, 0, 1 }, RBType::SPHERE);
+	racimo3RBS->addBody({ 20, 0, 0 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::SPHERE);
+	racimo3RBS->addBody({ 0, 0, 0 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::SPHERE);
+	racimo3RBS->addBody({ 0, 0, 20 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 1, 1, 1 }, 2, -1, { 1, 1, 0, 1 }, RBType::SPHERE);
+}
+
+void SceneManager::createSnow()
+{
+	rbForces.push_back(new TorqueRigidForceGenerator(Vector3(100, 100, 100)));
+
+	RigidBodySystem* snow1RBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(70, 110, 70)), 60, -1);
+	snow1RBS->addForceGenerator(rbForces[rbForces.size() - 1]);
+	rbSys.push_back(snow1RBS);
+	RigidBodySystem* snow2RBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(75, 110, -75)), 60, -1);
+	snow2RBS->addForceGenerator(rbForces[rbForces.size() - 1]);
+	rbSys.push_back(snow2RBS);
+	RigidBodySystem* snow3RBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(0, 110, 0)), 60, -1);
+	snow3RBS->addForceGenerator(rbForces[rbForces.size() - 1]);
+	rbSys.push_back(snow3RBS);
+}
+
+void SceneManager::createRain()
+{
+	FireworkSystem* rainPS = new FireworkSystem(fReg, { 0, 120, 0 }, -1);
+	rainPS->addForceGenerator(pForces[0]);
+	pSys.push_back(rainPS);
 }
 
 void SceneManager::createPC()
 {
 	RigidBodySystem* pcRBS = new RigidBodySystem(fReg, gPhysics, gScene, PxTransform(Vector3(0, 0, 0)), 1, -1);
-	
 	// playable character
-	pcRBS->addBody({ 0, 10, 0 }, 1, -1, false, { 0, 1, 1, 1 });
+	pc = pcRBS->addBody({ 0, 10, 0 }, 5, { 0, 0, 0 }, { 0, 0, 0 }, 0.1, 0.1,
+		{ 0, 0, 0 }, 10, -1, { 0, 1, 1, 1 }, RBType::SPHERE);
+	pc->rItem->release();
 
 	rbSys.push_back(pcRBS);
 }

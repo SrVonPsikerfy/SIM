@@ -27,6 +27,7 @@
 #include "../forces/rigid_bodies/ExplosionRigidForceGenerator.h"
 #include "../forces/rigid_bodies/TorqueRigidForceGenerator.h"
 #include "../forces/rigid_bodies/DownRigidForceGenerator.h"
+#include "../forces/rigid_bodies/DefaultForceGenerator.h"
 
 using namespace std;
 using namespace physx;
@@ -57,9 +58,6 @@ private:
 
 	Camera* camera;
 
-	physx::PxTransform axisPos;
-	RenderItem* axis;
-
 	ParticleSystems pSys;
 	RigidBodySystems rbSys;
 
@@ -70,6 +68,10 @@ private:
 	RigidBodyForces rbForces;
 
 	Scenes currScene;
+
+	RigidBody* pc;
+	float rainSpawn, spawnT;
+	bool deathScene;
 
 	void free();
 	void changeScene(Scenes newScene);
@@ -86,6 +88,7 @@ private:
 	void buoyancyScene();
 	void bungeeScene();
 	void rigidBodyScene();
+	void finalScene();
 
 	void createSkybox();
 	void createVolcano();
@@ -93,6 +96,8 @@ private:
 	void createRiver();
 	void createTree();
 	void createBananas();
+	void createSnow();
+	void createRain();
 	void createPC();
 };
 #endif

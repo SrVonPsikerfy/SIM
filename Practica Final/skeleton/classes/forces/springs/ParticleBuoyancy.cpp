@@ -11,18 +11,18 @@ void ParticleBuoyancy::updateForce(Particle* p, float t) {
 	Vector3 f(0.0f, 0.0f, 0.0f);
 
 	if (depth > waterHeight + maxDepth + 0.01) {
-		p->setColor({ 1, 0, 0, 1 });
+		p->setColor({ 0.5, 0.5, 0.5, 1 });
 		return;
 	}
 	if (depth < waterHeight - maxDepth) {
-		p->setColor({ 1, 0, 1, 1 });
+		p->setColor({ 0, 0, 0, 1 });
 		f.y = liquidDensity * volume * gFactor;
 	}
 	else {
 		float depthExt = waterHeight + maxDepth;
 		float volFactor = (depthExt - depth) / (2 * maxDepth);
 		f.y = liquidDensity * volume * volFactor * gFactor;
-		p->setColor({ 0.5, 0, 1, 1 });
+		p->setColor({ 0.1, 0.1, 0.1, 1 });
 	}
 
 	p->addForce(f);
